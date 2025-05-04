@@ -8,12 +8,13 @@ CompuGraf25-2
 ### INGENIERÍA EN COMPUTACIÓN
 ### LABORATORIO DE COMPUTACIÓN GRÁFICA e INTERACCIÓN HUMANO COMPUTADORA
 
-- Integrantes del equipo:
-      - **Aguilar Perez José Ramón**
-      - **Dominguez Chavez Jesus Abner**
-      - **Sanchez Calvillo Saida Mayela - 318164481**
-      - **Sanchez Villalpando Johan**
-- GRUPO DE LABORATORIO: 02
-- GRUPO DE TEORÍA: 04
-- SEMESTRE 2025-2
+Integrantes del equipo:
+- **Aguilar Perez José Ramón**
+- **Dominguez Chavez Jesus Abner**
+- **Sanchez Calvillo Saida Mayela - 318164481**
+- **Sanchez Villalpando Johan**
+
+GRUPO DE LABORATORIO: 02\
+GRUPO DE TEORÍA: 04\
+SEMESTRE 2025-2
 
