@@ -1,5 +1,5 @@
 # ProyectoFeria
-Proyecto Feria - CGeIHC
+Proyecto Feria - CGeIHC\
 CompuGraf25-2
 
 ## UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO
