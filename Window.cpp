@@ -1,0 +1,209 @@
+#include "Window.h"
+#include <glm.hpp>
+
+Window::Window()
+{
+	width = 800;
+	height = 600;
+	for (size_t i = 0; i < 1024; i++)
+	{
+		keys[i] = 0;
+	}
+}
+Window::Window(GLint windowWidth, GLint windowHeight)
+{
+	width = windowWidth;
+	height = windowHeight;
+	for (size_t i = 0; i < 1024; i++)
+	{
+		keys[i] = 0;
+	}
+}
+int Window::Initialise()
+{
+	//Inicialización de GLFW
+	if (!glfwInit())
+	{
+		printf("Falló inicializar GLFW");
+		glfwTerminate();
+		return 1;
+	}
+	//Asignando variables de GLFW y propiedades de ventana
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//para solo usar el core profile de OpenGL y no tener retrocompatibilidad
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+	//CREAR VENTANA
+	mainWindow = glfwCreateWindow(width, height, "Practica09: Animación", NULL, NULL);
+
+	if (!mainWindow)
+	{
+		printf("Fallo en crearse la ventana con GLFW");
+		glfwTerminate();
+		return 1;
+	}
+	//Obtener tamaño de Buffer
+	glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
+
+	//asignar el contexto
+	glfwMakeContextCurrent(mainWindow);
+
+	//MANEJAR TECLADO y MOUSE
+	createCallbacks();
+
+
+	//permitir nuevas extensiones
+	glewExperimental = GL_TRUE;
+
+	if (glewInit() != GLEW_OK)
+	{
+		printf("Falló inicialización de GLEW");
+		glfwDestroyWindow(mainWindow);
+		glfwTerminate();
+		return 1;
+	}
+
+	glEnable(GL_DEPTH_TEST); //HABILITAR BUFFER DE PROFUNDIDAD
+							 // Asignar valores de la ventana y coordenadas
+							 
+							 //Asignar Viewport
+	glViewport(0, 0, bufferWidth, bufferHeight);
+	//Callback para detectar que se está usando la ventana
+	glfwSetWindowUserPointer(mainWindow, this);
+}
+
+void Window::createCallbacks()
+{
+	glfwSetKeyCallback(mainWindow, ManejaTeclado);
+	glfwSetCursorPosCallback(mainWindow, ManejaMouse);
+}
+GLfloat Window::getXChange()
+{
+	GLfloat theChange = xChange;
+	xChange = 0.0f;
+	return theChange;
+}
+
+GLfloat Window::getYChange()
+{
+	GLfloat theChange = yChange;
+	yChange = 0.0f;
+	return theChange;
+}
+
+void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode)
+{
+	Window* theWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+
+	// Convertir el ángulo de rotación a radianes para poder hacer calculos correctos
+	float rotRad = glm::radians(theWindow->rotavatar);
+	// Calcular la dirección hacia en frnte del personaje con respecto a la rotación
+	glm::vec3 forwardDir = glm::vec3(sin(rotRad), 0.0f, cos(rotRad));
+	glm::vec3 rightDir = glm::vec3(cos(rotRad), 0.0f, -sin(rotRad));
+	float velmov = 1.0f; //variable de velocidad de movimiento del personaje
+	//MOVIMIENTO DEL PERSONAJE
+	if (key == GLFW_KEY_A) //izquierda
+	{
+		theWindow->poslat += rightDir.x * velmov;
+		theWindow->posfron += rightDir.z * velmov;
+	}
+	if (key == GLFW_KEY_D) //derecha
+	{
+		theWindow->poslat -= rightDir.x * velmov;
+		theWindow->posfron -= rightDir.z * velmov;
+	}
+	if (key == GLFW_KEY_W) //adelante
+	{
+		theWindow->poslat += forwardDir.x * velmov;
+		theWindow->posfron += forwardDir.z * velmov;
+	}
+	if (key == GLFW_KEY_S) //atras
+	{
+		theWindow->poslat -= forwardDir.x * velmov;
+		theWindow->posfron -= forwardDir.z * velmov;
+	}
+	//ROTACIÓN DEL PERSONAJE
+	if (key == GLFW_KEY_LEFT) //izq
+	{
+		theWindow->rotavatar += 2.0f; //rota 2 unidades a la izq
+	}
+	if (key == GLFW_KEY_RIGHT) //DER
+	{
+		theWindow->rotavatar -= 2.0f; //rota 2 unidades a la der
+	}
+	if (key == GLFW_KEY_UP) //arriba
+	{
+		if(theWindow->rotavatarY <= 22) //límite para evitar rotaciones completas
+		theWindow->rotavatarY += 1.5f; //rota 1.5 unidades arriba
+	}
+	if (key == GLFW_KEY_DOWN) //abajoo
+	{
+		if (theWindow->rotavatarY >= -60) //limite para evitar rotaciones completas
+		theWindow->rotavatarY -= 1.5f; //rota 1.5 unidades abajo
+	}
+	
+	//CAMBIO DE CÁMARA
+	if (key == GLFW_KEY_1) //camara tercera persona
+	{
+		theWindow->camtype = 0.0f;
+	}
+	if (key == GLFW_KEY_2) //camara desde arriba
+	{
+		theWindow->camtype = 1.0f;
+	}
+	if (key == GLFW_KEY_3) //camara sobre juego
+	{
+		theWindow->camtype = 2.0f;
+	}
+	if (key == GLFW_KEY_4) //camara editor
+	{
+		theWindow->camtype = 3.0f;
+	}
+
+	if (key >= 0 && key < 1024)
+	{
+		if (action == GLFW_PRESS)
+		{
+			theWindow->keys[key] = true;
+			//printf("se presiono la tecla %d'\n", key);
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			theWindow->keys[key] = false;
+			//printf("se solto la tecla %d'\n", key);
+		}
+	}
+}
+
+void Window::ManejaMouse(GLFWwindow* window, double xPos, double yPos)
+{
+	Window* theWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+	if (theWindow->mouseFirstMoved)
+	{
+		theWindow->lastX = xPos;
+		theWindow->lastY = yPos;
+		theWindow->mouseFirstMoved = false;
+	}
+
+	theWindow->xChange = xPos - theWindow->lastX;
+	theWindow->yChange = theWindow->lastY - yPos;
+
+	theWindow->lastX = xPos;
+	theWindow->lastY = yPos;
+}
+
+
+Window::~Window()
+{
+	glfwDestroyWindow(mainWindow);
+	glfwTerminate();
+
+}
