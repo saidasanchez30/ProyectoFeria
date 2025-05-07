@@ -40,10 +40,6 @@ Textura Animada
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
-
-//variables para animación
-
-
 //VARIABLES PARA CICLO DIA/NOCHE
 float solAng = 0.0f; //angulo del soll   
 const float VelSol = 0.25f;// Velocidad de avance del día en grados por segundo
@@ -54,17 +50,12 @@ std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
 /*DECLARACIÓN DE CÁMARAS :
-camara: la camara de editor que permite recorrer el mapa, se debe eliminar en la entrega final
 camara1: la camara que sigue al avatar
-camara2: camara que se posiciona sobre cada atracción
-camara3: camara que muestra el mapa completo
-
+camara2: Camara aerea muestra todo el mapa
+camara3: camara que se posiciona para ver juegos
 */
 Camera camara1, camara2, camara3;
 
-Texture brickTexture;
-Texture dirtTexture;
-Texture plainTexture;
 Texture pisoTexture;
 
 ///----------AÑADIR MODELOS EN ESTA SECCIÓN---------------------
@@ -207,12 +198,6 @@ int main()
 	camara2 = Camera(glm::vec3(0.0f, 100.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), -90.0f, -89.9f, 0.5f, 0.5f);
 	camara3 = Camera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 0.5f, 0.5f);
 
-	brickTexture = Texture("Textures/brick.png");
-	brickTexture.LoadTextureA();
-	dirtTexture = Texture("Textures/dirt.png");
-	dirtTexture.LoadTextureA();
-	plainTexture = Texture("Textures/plain.png");
-	plainTexture.LoadTextureA();
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
 
