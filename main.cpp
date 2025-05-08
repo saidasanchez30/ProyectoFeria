@@ -71,6 +71,8 @@ Model mario_p_der_2;
 Model mario_p_der_zap;
 Model estrellita;
 Model hongo_verde;
+Model moneda;
+Model tragamoneda;
 
 //PHINEAS
 Model phineas_cuerpo;
@@ -107,6 +109,18 @@ Model dados_mesa;
 Model dados_vaso;
 Model dados_cubo1;
 Model dados_cubo2;
+
+//JUEGO HACHA
+Model CabinaHacha;
+Model Axe;
+
+//PERRY
+Model Perry_Cuerpo;
+Model Perry_BrazoD;
+Model Perry_BrazoI;
+Model Perry_PiernaD;
+Model Perry_PiernaI;
+Model Perry_Sombrero;
 
 // SKYBOX PARA DÍA (SKYBOX), NOCHE(SKYBOX_N) Y TARDE (SKYBOX_T)
 Skybox skybox, skybox_n, skybox_t;
@@ -254,6 +268,10 @@ int main()
 	estrellita.LoadModel("Models/Mario/estrellita.obj");
 	hongo_verde = Model(); //Creamos modelo
 	hongo_verde.LoadModel("Models/Mario/1upmushroom.obj");
+	moneda = Model(); //Creamos modelo
+	moneda.LoadModel("Models/Mario/moneda.obj");
+	tragamoneda = Model(); //Creamos modelo
+	tragamoneda.LoadModel("Models/tragamoneda.obj");
 
 	//MODELO PHINEAS
 	phineas_cuerpo = Model();
@@ -312,6 +330,26 @@ int main()
 	dados_cubo1.LoadModel("Models/Dados/dados_cubo1.obj");
 	dados_cubo2 = Model();
 	dados_cubo2.LoadModel("Models/Dados/dados_cubo2.obj");
+
+	//JUEGO DE HACHA
+	CabinaHacha = Model();
+	CabinaHacha.LoadModel("Models/Hacha/CabinaHacha.obj");
+	Axe = Model();
+	Axe.LoadModel("Models/Hacha/Axe.obj");
+
+	//PERRY
+	Perry_Cuerpo = Model();
+	Perry_Cuerpo.LoadModel("Models/Perry/Perry_Cuerpo.obj");
+	Perry_BrazoD = Model();
+	Perry_BrazoD.LoadModel("Models/Perry/Perry_BrazoD.obj");
+	Perry_BrazoI = Model();
+	Perry_BrazoI.LoadModel("Models/Perry/Perry_BrazoI.obj");
+	Perry_PiernaD = Model();
+	Perry_PiernaD.LoadModel("Models/Perry/Perry_PiernaD.obj");
+	Perry_PiernaI = Model();
+	Perry_PiernaI.LoadModel("Models/Perry/Perry_PiernaI.obj");
+	Perry_Sombrero = Model();
+	Perry_Sombrero.LoadModel("Models/Perry/Perry_Sombrero.obj");
 
 	//SKYBOX DIA
 	std::vector<std::string> skyboxFaces;
@@ -390,10 +428,10 @@ int main()
 	//algunas variables para avatar y cámara
 	glm::mat4 view;
 	glm::vec3 avatarPos; //posición del avatar
-	float rotavatar, rotavatarY; //rotación del avatar
+	float rotavatar, rotavatarY, dentrojuego=0.0f; //rotación del avatar
 	//animaciones
-	float contabasico = 0.0f;
-
+	float contabasico = 0.0f, monedamovx = 0.0f,monedamovy=0.0f;
+	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
@@ -503,6 +541,7 @@ int main()
 		rotavatarY = mainWindow.getrotavatarY();
 		//CAMARAS	
 		if (mainWindow.getcamtype() == 0) { //vista tercera persona
+			dentrojuego = 0.0f; //no estás en un juego
 			// Offset detrás y arriba del personaje
 			glm::vec3 camOffset = glm::vec3(0.0f, 40.0f, 35.0f);
 			camara1.followObject(avatarPos, camOffset, 10.0f, deltaTime, rotavatar, rotavatarY);
@@ -515,6 +554,7 @@ int main()
 
 		}
 		else if (mainWindow.getcamtype() == 1) { //vista aerea
+			dentrojuego = 0.0f; //no estás en un juego
 			camara2.lookAtTarget(glm::vec3(0.0f, 550.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f));
 			//Se inicia cámara
 			glm::mat4 view = camara2.calculateViewMatrix();
@@ -531,13 +571,15 @@ int main()
 
 			if (mainWindow.getposlat() > 70.0f && mainWindow.getposlat() < 110.0f
 				&& mainWindow.getposfron() > 460 && mainWindow.getposfron() < 485.0f) {
-				camara3.lookAtTarget(glm::vec3(-92.5f, 22.5f, -190.0f), glm::vec3(-100.0f, 0.0f, -200.0f));
+				camara3.lookAtTarget(glm::vec3(-92.5f, 22.5f, -180.0f), glm::vec3(-100.0f, 0.0f, -200.0f));
+				dentrojuego = 1.0f;
 			}
 			/// else if (conidiciones de tu juego) { cámara posicionada en tu juego } 
 			else {
 				//en caso de no estar cerca de ningún juego, se manda a una vista general del mapa
 				//PARA PROBAR LA FUNCIÓN lookAtTarget de tu juego, puedes ponerlo aquí para evitar caminar hasta el lugar del mapa
 				camara3.lookAtTarget(glm::vec3(0.0f, 50.0f, 300.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+				
 			}
 			//Se inicia cámara
 			glm::mat4 view = camara3.calculateViewMatrix();
@@ -552,7 +594,7 @@ int main()
 			camara4.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 			camara4.keyControl(mainWindow.getsKeys(), deltaTime);
 			camara4.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-
+			dentrojuego = 0.0f; //no estás en un juego
 			glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 			glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camara4.calculateViewMatrix()));
 			glUniform3f(uniformEyePosition, camara4.getCameraPosition().x, camara4.getCameraPosition().y, camara4.getCameraPosition().z);
@@ -576,8 +618,6 @@ int main()
 		glm::vec3 newDirection = glm::vec3(rotadia * glm::vec4(baseDirection, 0.0f)); //se rota la dirección base 
 		mainLight.direction = glm::normalize(newDirection); // se normaliza para ajustar
 
-		//printf("\nangulo del sol: %f", solAng);
-
 		//inicia modelo de suelo
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
@@ -597,6 +637,15 @@ int main()
 
 		meshList[0]->RenderMesh();
 
+		//ANIMACION MONEDA AÑADIR ACTIVADOR CON TECLA
+		if (dentrojuego == 1.0f) {
+			if (monedamovx <= 20.0F)
+				monedamovx += 0.02f * deltaTime * 5.0f;
+			if (monedamovy < 15.0f)
+				monedamovy -= 0.006f * deltaTime * 5.0f;
+		}
+		else { monedamovx = 0.0f; monedamovy = 0.0f; }
+		
 		// ----------------------------------------------------- AVATAR --------------------------------------------------------------
 		//PHINEAS 
 		//cuerpo
@@ -1051,6 +1100,23 @@ int main()
 		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		hongo_verde.RenderModel();
 
+		//JUEGO HACHA
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-200.0f, -1.5f, -80.0f));
+		modelaux = model;
+		model = glm::rotate(model, 65 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.2f, 1.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		CabinaHacha.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-200.0f, -1.5f, -80.0f));
+		modelaux = model;
+		model = glm::rotate(model, 65 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.2f, 1.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Axe.RenderModel();
+
 		// ------------------------------------------------------- PUESTOS DE COMIDA ---------------------------------------------------
 		//Puesto de tacos
 		model = glm::mat4(1.0);
@@ -1124,6 +1190,66 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		brazo_izq_luc.RenderModel();
+		
+		//Perry
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-150.0f, 0.0f, -90.0f));
+		model = glm::rotate(model, 65 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_Cuerpo.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.68f, 2.05f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_BrazoD.RenderModel();
+
+		float rotationAngle = sin(now * 1.5f) * glm::radians(-10.0f); // rotación senoidal entre -45° y 45°
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.65f, 2.06f, 0.0f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotationAngle, glm::vec3(0.0f, 0.0f, 1.0f));     // rotación senoidal en Y
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_BrazoI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.4f, 0.43f, -0.16f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_PiernaD.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.5f, 0.43f, -0.16f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_PiernaI.RenderModel();
+
+		float rotationAngleS = sin(now * 1.5f) * glm::radians(20.0f); // rotación senoidal entre -45° y 45°
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(1.2f, 3.7f, 0.0f));
+		model = glm::rotate(model, -20 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotationAngleS, glm::vec3(0.0f, 0.0f, 1.0f));     // rotación senoidal en Y
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_Sombrero.RenderModel();
+
+		//SECCIÓN DE MAQUINAS PARA MONEDAS
+		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
+		//Maquina de monedas sobre juego DADOS:
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-86.5f, -0.5f, -195.0f));
+		model = glm::rotate(model, 195 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		tragamoneda.RenderModel();
+		//MONEDA RELATIVA AL TRAGAMONEDAS
+		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
+			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			moneda.RenderModel();
+		}
 
 
 		glDisable(GL_BLEND);
