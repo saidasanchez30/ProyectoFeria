@@ -69,6 +69,8 @@ Model mario_p_izq_zap;
 Model mario_p_der_1;
 Model mario_p_der_2;
 Model mario_p_der_zap;
+Model estrellita;
+Model hongo_verde;
 
 //PHINEAS
 Model phineas_cuerpo;
@@ -124,7 +126,8 @@ Skybox skybox, skybox_n, skybox_t;
 //materiales
 Material Material_brillante;
 Material Material_opaco;
-
+Material Material_metalico;
+Material Material_tela;
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
 
@@ -258,6 +261,11 @@ int main()
 	mario_p_der_2.LoadModel("Models/Mario/mario_p_der_2.obj");
 	mario_p_der_zap = Model();
 	mario_p_der_zap.LoadModel("Models/Mario/mario_p_der_zap.obj");
+	//Objetos universo Mario
+	estrellita = Model(); //Creamos modelo
+	estrellita.LoadModel("Models/Mario/estrellita.obj");
+	hongo_verde = Model(); //Creamos modelo
+	hongo_verde.LoadModel("Models/Mario/1upmushroom.obj");
 
 	//MODELO PHINEAS
 	phineas_cuerpo = Model();
@@ -371,7 +379,8 @@ int main()
 	//CREACIÓN DE MATERIALES, AÑADIR MÁS PARA LA FERIA
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
-
+	Material_metalico = Material(0.9f, 256); //muy brillante
+	Material_tela = Material(0.05f, 2);  // Tela
 	//luz direccional, sólo 1 y siempre debe de existir
 
 	//VARIABLE solAng para modificar el angulo en tiempo de ejecución.
@@ -662,7 +671,7 @@ int main()
 		// ----------------------------------------------------- OTROS PERSONAJES ----------------------------------------------------------
 		//MARIO 
 		//torso
-		contabasico += 0.25f * deltaTime;
+		contabasico += 0.45f * deltaTime;
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-75.0f, 10.5f - sin(contabasico * 0.1f) * 6, -200.0f));
 		model = glm::rotate(model, 20 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -714,7 +723,6 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, -0.45f, -0.03f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		mario_p_der_zap.RenderModel();
-
 
 		// ---------------------------------------------------- ENTORNO ----------------------------------------------------------------
 		//Valla
@@ -1042,11 +1050,13 @@ int main()
 		modelaux = model;
 		model = glm::scale(model, glm::vec3(1.5f, 1.2f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		dados_mesa.RenderModel();
 		//vaso
 		model = glm::translate(model, glm::vec3(3.0f, 5.0f, 3.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		dados_vaso.RenderModel();
 		//dado1
 		model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
@@ -1056,6 +1066,22 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 3.5f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		dados_cubo2.RenderModel();
+		//OBJETOS ESTRELLA Y HONGO
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 2.0f + sin(contabasico*0.3), 150.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.0f)));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		estrellita.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-50.0f + sin(contabasico*0.05)*20.0f, 0.3f, 150.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		hongo_verde.RenderModel();
 
 		//JUEGO HACHA
 		model = glm::mat4(1.0);
@@ -1082,10 +1108,13 @@ int main()
 		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(13.0f, 13.0f, 13.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		puesto_tacos.RenderModel();
 		//Trompo de la carne al pastor
 		model = glm::translate(model, glm::vec3(-0.15f, -0.15f, 0.63f));
+		model = glm::rotate(model, sin(contabasico * 0.01f)*10.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		trompo_pastor.RenderModel();
 
 
@@ -1097,6 +1126,7 @@ int main()
 		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		pikachu.RenderModel();
 		//Cola
 		model = glm::translate(model, glm::vec3(0.0f, 0.8f, 1.0f));
@@ -1113,14 +1143,17 @@ int main()
 		model = glm::translate(model, glm::vec3(250.0f, 15.0f, 250.0f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		charizard.RenderModel();
 		//Ala derecha
 		model = glm::translate(model, glm::vec3(0.5f, 0.0f, -1.2f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		ala_der_char.RenderModel();
 		//Ala izquierda
 		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		ala_izq_char.RenderModel();
 
 		//Lucario
@@ -1128,14 +1161,17 @@ int main()
 		model = glm::translate(model, glm::vec3(-30.0f, 11.8f, 250.0f));
 		model = glm::scale(model, glm::vec3(1.3f, 1.3f, 1.3f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		lucario.RenderModel();
 		//brazo derecho
 		model = glm::translate(model, glm::vec3(-1.7f, 3.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		brazo_der_luc.RenderModel();
 		//brazo izquierdo
 		model = glm::translate(model, glm::vec3(3.4f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		brazo_izq_luc.RenderModel();
 
 		//Perry
