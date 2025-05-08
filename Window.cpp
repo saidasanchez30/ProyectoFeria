@@ -133,15 +133,15 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		theWindow->poslat += forwardDir.x * velmov;
 		theWindow->posfron += forwardDir.z * velmov;
-		theWindow->rotationAngleD = sin(now * 5.0f) * glm::radians(35.0f); // rotación senoidal entre -45° y 45°
-		theWindow->rotationAngleI = sin(now * 5.0f) * glm::radians(-35.0f); // rotación senoidal entre -45° y 45°
+		theWindow->rotationAngleD = sin(now * 10.0f) * glm::radians(35.0f); // rotación senoidal entre -45° y 45°
+		theWindow->rotationAngleI = sin(now * 10.0f) * glm::radians(-35.0f); // rotación senoidal entre -45° y 45°
 	}
 	if (key == GLFW_KEY_S) //atras
 	{
 		theWindow->poslat -= forwardDir.x * velmov;
 		theWindow->posfron -= forwardDir.z * velmov;
-		theWindow->rotationAngleD = sin(now * 5.0f) * glm::radians(35.0f); // rotación senoidal entre -45° y 45°
-		theWindow->rotationAngleI = sin(now * 5.0f) * glm::radians(-35.0f); // rotación senoidal entre -45° y 45°
+		theWindow->rotationAngleD = sin(now * 10.0f) * glm::radians(35.0f); // rotación senoidal entre -45° y 45°
+		theWindow->rotationAngleI = sin(now * 10.0f) * glm::radians(-35.0f); // rotación senoidal entre -45° y 45°
 	}
 
 	//LIMITAR MOVIMIENTO A 600x600 (X y Z entre -300 y 300)
@@ -159,12 +159,12 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	}
 	if (key == GLFW_KEY_UP) //arriba
 	{
-		if (theWindow->rotavatarY <= 22) //límite para evitar rotaciones completas
+		if (theWindow->rotavatarY <= 50) //límite para evitar rotaciones completas
 			theWindow->rotavatarY += 1.5f; //rota 1.5 unidades arriba
 	}
 	if (key == GLFW_KEY_DOWN) //abajoo
 	{
-		if (theWindow->rotavatarY >= -60) //limite para evitar rotaciones completas
+		if (theWindow->rotavatarY >= -40) //limite para evitar rotaciones completas
 			theWindow->rotavatarY -= 1.5f; //rota 1.5 unidades abajo
 	}
 

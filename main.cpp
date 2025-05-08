@@ -73,14 +73,6 @@ Model mario_p_der_1;
 Model mario_p_der_2;
 Model mario_p_der_zap;
 
-Model phineas_cuerpo;
-Model phineas_brazoD;
-Model phineas_brazoI;
-Model phineas_piernaD;
-Model phineas_piernaI;
-
-Model valla;
-
 // SKYBOX PARA DÍA (SKYBOX), NOCHE(SKYBOX_N) Y TARDE (SKYBOX_T)
 Skybox skybox, skybox_n, skybox_t;
 
@@ -209,7 +201,6 @@ int main()
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
 
-	//MODELO MARIO
 	mario_torso = Model(); // Creamos modelo
 	mario_torso.LoadModel("Models/mario_torso.obj");
 
@@ -236,25 +227,6 @@ int main()
 
 	mario_p_der_zap = Model(); // Creamos modelo
 	mario_p_der_zap.LoadModel("Models/mario_p_der_zap.obj");
-
-	//MODELO PHINEAS
-	phineas_cuerpo = Model(); // Creamos modelo
-	phineas_cuerpo.LoadModel("Models/phineas_cuerpo.obj");
-
-	phineas_brazoD = Model(); // Creamos modelo
-	phineas_brazoD.LoadModel("Models/phineas_brazoD.obj");
-
-	phineas_brazoI = Model(); // Creamos modelo
-	phineas_brazoI.LoadModel("Models/phineas_brazoI.obj");
-
-	phineas_piernaD = Model(); // Creamos modelo
-	phineas_piernaD.LoadModel("Models/phineas_piernaD.obj");
-
-	phineas_piernaI = Model(); // Creamos modelo
-	phineas_piernaI.LoadModel("Models/phineas_piernaI.obj");
-
-	valla = Model(); // Creamos modelo
-	valla.LoadModel("Models/Valla.obj");
 
 	//SKYBOX DIA
 	std::vector<std::string> skyboxFaces;
@@ -439,7 +411,7 @@ int main()
 		avatarPos = glm::vec3(
 			0.0f - mainWindow.getposlat(),
 			3.0f,
-			295.0f - mainWindow.getposfron());
+			0.0f - mainWindow.getposfron());
 		//rotación del avatar
 		rotavatar = mainWindow.getrotavatar();
 		rotavatarY = mainWindow.getrotavatarY();
@@ -524,356 +496,54 @@ int main()
 
 		meshList[2]->RenderMesh();
 
-		//PHINEAS 
-		//cuerpo
+		//MARIO 
+		//torso
 		model = glm::mat4(1.0);
-		//Posición se ajusta para el avatar
-		model = glm::translate(model, glm::vec3(0.0f - mainWindow.getposlat(), 4.5f, 295.0f - mainWindow.getposfron())); //mov del avatar (cambiar a phineas)
+		//Posición se ajusta para el avatar, mario es temporal
+		model = glm::translate(model, glm::vec3(0.0f - mainWindow.getposlat(), 4.5f, 0.0f - mainWindow.getposfron())); //mov del avatar (cambiar a phineas)
 		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //ROTACIÖN OBLIGATORIA EN AVATAR
 		model = glm::rotate(model, rotavatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //rotación del avatar (cambiar a phineas)
-		model = glm::scale(model, glm::vec3(11.0f, 11.0f, 11.0f));
+
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
 		modelaux = model; //se guarda traslación
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		phineas_cuerpo.RenderModel();
-		//brazo der
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(-0.05f, 0.11f, 0.0f));
-		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, mainWindow.getcaminarD(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotación senoidal en X
+		mario_torso.RenderModel();
+		//cabeza
+		model = glm::translate(model, glm::vec3(0.0f, 0.675f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		phineas_brazoD.RenderModel();
+		mario_cabeza.RenderModel();
 		//brazo izq
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.05f, 0.11f, 0.0f));
-		model = glm::rotate(model, -30 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, mainWindow.getcaminarI(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotación senoidal en X
+		model = glm::translate(model, glm::vec3(0.46f, 0.478f, -0.1f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		phineas_brazoI.RenderModel();
-		//pierna der
+		mario_b_izq.RenderModel();
+		//brazo der
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-0.08f, -0.25f, 0.0f));
-		model = glm::rotate(model, mainWindow.getcaminarD(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotación senoidal en X
+		model = glm::translate(model, glm::vec3(-0.46f, 0.45f, -0.1f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		phineas_piernaD.RenderModel();
+		mario_b_der.RenderModel();
 		//pierna izq
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.08f, -0.25f, -0.02f));
-		model = glm::rotate(model, mainWindow.getcaminarI(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotación senoidal en X
+		model = glm::translate(model, glm::vec3(0.28f, -0.48f, -0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		phineas_piernaI.RenderModel();
-
-		//Valla
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-300.0f, -1.8f, -290.0f));
-		//model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		mario_p_izq.RenderModel();
+		//zapato izq
+		model = glm::translate(model, glm::vec3(0.0f, -0.85f, -0.08f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
+		mario_p_izq_zap.RenderModel();
+		//pierna der
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.25f, -0.44f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
+		mario_p_der_1.RenderModel();
+		//pierna der 2
+		model = glm::translate(model, glm::vec3(-0.01f, -0.449f, -0.05f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
+		mario_p_der_2.RenderModel();
+		//zapato der
+		model = glm::translate(model, glm::vec3(0.0f, -0.45f, -0.03f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-
-		model = glm::translate(model, glm::vec3(10.6f, 0.0f, 14.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 200.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-
-		model = glm::translate(model, glm::vec3(10.6f, 0.0f, 14.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-
-		model = glm::translate(model, glm::vec3(10.6f, 0.0f, 14.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 22.6f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		valla.RenderModel();
-
-		//Arbol central 
-
+		mario_p_der_zap.RenderModel();
 
 
 		glDisable(GL_BLEND);
