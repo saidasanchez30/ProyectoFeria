@@ -22,10 +22,10 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 }
 int Window::Initialise()
 {
-	//Inicialización de GLFW
+	//InicializaciÃ³n de GLFW
 	if (!glfwInit())
 	{
-		printf("Falló inicializar GLFW");
+		printf("FallÃ³ inicializar GLFW");
 		glfwTerminate();
 		return 1;
 	}
@@ -37,7 +37,7 @@ int Window::Initialise()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//CREAR VENTANA
-	mainWindow = glfwCreateWindow(width, height, "Practica09: Animación", NULL, NULL);
+	mainWindow = glfwCreateWindow(width, height, "Proyecto Feria - Mundo Phineas y Ferb", NULL, NULL);
 
 	if (!mainWindow)
 	{
@@ -45,7 +45,7 @@ int Window::Initialise()
 		glfwTerminate();
 		return 1;
 	}
-	//Obtener tamaño de Buffer
+	//Obtener tamaÃ±o de Buffer
 	glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
 
 	//asignar el contexto
@@ -60,7 +60,7 @@ int Window::Initialise()
 
 	if (glewInit() != GLEW_OK)
 	{
-		printf("Falló inicialización de GLEW");
+		printf("FallÃ³ inicializaciÃ³n de GLEW");
 		glfwDestroyWindow(mainWindow);
 		glfwTerminate();
 		return 1;
@@ -71,7 +71,7 @@ int Window::Initialise()
 
 	//Asignar Viewport
 	glViewport(0, 0, bufferWidth, bufferHeight);
-	//Callback para detectar que se está usando la ventana
+	//Callback para detectar que se estÃ¡ usando la ventana
 	glfwSetWindowUserPointer(mainWindow, this);
 }
 
@@ -110,9 +110,9 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	deltaTime += (now - lastTime) / limitFPS;
 	lastTime = now;
 
-	// Convertir el ángulo de rotación a radianes para poder hacer calculos correctos
+	// Convertir el Ã¡ngulo de rotaciÃ³n a radianes para poder hacer calculos correctos
 	float rotRad = glm::radians(theWindow->rotavatar);
-	// Calcular la dirección hacia en frnte del personaje con respecto a la rotación
+	// Calcular la direcciÃ³n hacia en frnte del personaje con respecto a la rotaciÃ³n
 	glm::vec3 forwardDir = glm::vec3(sin(rotRad), 0.0f, cos(rotRad));
 	glm::vec3 rightDir = glm::vec3(cos(rotRad), 0.0f, -sin(rotRad));
 	float rotationAngleD;
@@ -133,22 +133,22 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		theWindow->poslat += forwardDir.x * velmov;
 		theWindow->posfron += forwardDir.z * velmov;
-		theWindow->rotationAngleD = sin(now * 5.0f) * glm::radians(35.0f); // rotación senoidal entre -45° y 45°
-		theWindow->rotationAngleI = sin(now * 5.0f) * glm::radians(-35.0f); // rotación senoidal entre -45° y 45°
+		theWindow->rotationAngleD = sin(now * 10.0f) * glm::radians(35.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â°
+		theWindow->rotationAngleI = sin(now * 10.0f) * glm::radians(-35.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â°
 	}
 	if (key == GLFW_KEY_S) //atras
 	{
 		theWindow->poslat -= forwardDir.x * velmov;
 		theWindow->posfron -= forwardDir.z * velmov;
-		theWindow->rotationAngleD = sin(now * 5.0f) * glm::radians(35.0f); // rotación senoidal entre -45° y 45°
-		theWindow->rotationAngleI = sin(now * 5.0f) * glm::radians(-35.0f); // rotación senoidal entre -45° y 45°
+		theWindow->rotationAngleD = sin(now * 10.0f) * glm::radians(35.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â°
+		theWindow->rotationAngleI = sin(now * 10.0f) * glm::radians(-35.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â°
 	}
 
 	//LIMITAR MOVIMIENTO A 600x600 (X y Z entre -300 y 300)
 	theWindow->poslat = std::max(-290.0f, std::min(290.0f, theWindow->poslat));
 	theWindow->posfron = std::max(0.0f, std::min(595.0f, theWindow->posfron));
 
-	//ROTACIÓN DEL PERSONAJE
+	//ROTACIÃ“N DEL PERSONAJE
 	if (key == GLFW_KEY_LEFT) //izq
 	{
 		theWindow->rotavatar += 2.0f; //rota 2 unidades a la izq
@@ -159,16 +159,16 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	}
 	if (key == GLFW_KEY_UP) //arriba
 	{
-		if (theWindow->rotavatarY <= 22) //límite para evitar rotaciones completas
+		if (theWindow->rotavatarY <= 50) //lÃ­mite para evitar rotaciones completas
 			theWindow->rotavatarY += 1.5f; //rota 1.5 unidades arriba
 	}
 	if (key == GLFW_KEY_DOWN) //abajoo
 	{
-		if (theWindow->rotavatarY >= -60) //limite para evitar rotaciones completas
+		if (theWindow->rotavatarY >= -40) //limite para evitar rotaciones completas
 			theWindow->rotavatarY -= 1.5f; //rota 1.5 unidades abajo
 	}
 
-	//CAMBIO DE CÁMARA
+	//CAMBIO DE CÃMARA
 	if (key == GLFW_KEY_1) //camara tercera persona
 	{
 		theWindow->camtype = 0.0f;
