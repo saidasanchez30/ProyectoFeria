@@ -10,7 +10,7 @@ CompuGraf25-2
 
 Integrantes del equipo:
 - **Aguilar Perez José Ramón**
-- **Dominguez Chavez Jesus Abner**
+- **Dominguez Chavez Jesus Abner - 319319969**
 - **Sanchez Calvillo Saida Mayela - 318164481**
 - **Sanchez Villalpando Johan**
 
