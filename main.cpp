@@ -69,8 +69,6 @@ Model mario_p_izq_zap;
 Model mario_p_der_1;
 Model mario_p_der_2;
 Model mario_p_der_zap;
-Model estrellita;
-Model hongo_verde;
 
 //PHINEAS
 Model phineas_cuerpo;
@@ -108,14 +106,25 @@ Model dados_vaso;
 Model dados_cubo1;
 Model dados_cubo2;
 
+//JUEGO HACHA
+Model CabinaHacha;
+Model Axe;
+
+//PERRY
+Model Perry_Cuerpo;
+Model Perry_BrazoD;
+Model Perry_BrazoI;
+Model Perry_PiernaD;
+Model Perry_PiernaI;
+Model Perry_Sombrero;
+
 // SKYBOX PARA DÍA (SKYBOX), NOCHE(SKYBOX_N) Y TARDE (SKYBOX_T)
 Skybox skybox, skybox_n, skybox_t;
 
 //materiales
 Material Material_brillante;
 Material Material_opaco;
-Material Material_metalico;
-Material Material_tela;
+
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
 
@@ -249,11 +258,6 @@ int main()
 	mario_p_der_2.LoadModel("Models/Mario/mario_p_der_2.obj");
 	mario_p_der_zap = Model();
 	mario_p_der_zap.LoadModel("Models/Mario/mario_p_der_zap.obj");
-	//Objetos universo Mario
-	estrellita = Model(); //Creamos modelo
-	estrellita.LoadModel("Models/Mario/estrellita.obj");
-	hongo_verde = Model(); //Creamos modelo
-	hongo_verde.LoadModel("Models/Mario/1upmushroom.obj");
 
 	//MODELO PHINEAS
 	phineas_cuerpo = Model();
@@ -313,6 +317,26 @@ int main()
 	dados_cubo2 = Model();
 	dados_cubo2.LoadModel("Models/Dados/dados_cubo2.obj");
 
+	//JUEGO DE HACHA
+	CabinaHacha = Model();
+	CabinaHacha.LoadModel("Models/Hacha/CabinaHacha.obj");
+	Axe = Model();
+	Axe.LoadModel("Models/Hacha/Axe.obj");
+
+	//PERRY
+	Perry_Cuerpo = Model();
+	Perry_Cuerpo.LoadModel("Models/Perry/Perry_Cuerpo.obj");
+	Perry_BrazoD = Model();
+	Perry_BrazoD.LoadModel("Models/Perry/Perry_BrazoD.obj");
+	Perry_BrazoI = Model();
+	Perry_BrazoI.LoadModel("Models/Perry/Perry_BrazoI.obj");
+	Perry_PiernaD = Model();
+	Perry_PiernaD.LoadModel("Models/Perry/Perry_PiernaD.obj");
+	Perry_PiernaI = Model();
+	Perry_PiernaI.LoadModel("Models/Perry/Perry_PiernaI.obj");
+	Perry_Sombrero = Model();
+	Perry_Sombrero.LoadModel("Models/Perry/Perry_Sombrero.obj");
+
 	//SKYBOX DIA
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/izq.jpg");
@@ -347,8 +371,7 @@ int main()
 	//CREACIÓN DE MATERIALES, AÑADIR MÁS PARA LA FERIA
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
-	Material_metalico = Material(0.9f, 256); //muy brillante
-	Material_tela = Material(0.05f, 2);  // Tela
+
 	//luz direccional, sólo 1 y siempre debe de existir
 
 	//VARIABLE solAng para modificar el angulo en tiempo de ejecución.
@@ -639,7 +662,7 @@ int main()
 		// ----------------------------------------------------- OTROS PERSONAJES ----------------------------------------------------------
 		//MARIO 
 		//torso
-		contabasico += 0.45f * deltaTime;
+		contabasico += 0.25f * deltaTime;
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-75.0f, 10.5f - sin(contabasico * 0.1f) * 6, -200.0f));
 		model = glm::rotate(model, 20 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -691,6 +714,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, -0.45f, -0.03f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		mario_p_der_zap.RenderModel();
+
 
 		// ---------------------------------------------------- ENTORNO ----------------------------------------------------------------
 		//Valla
@@ -1018,13 +1042,11 @@ int main()
 		modelaux = model;
 		model = glm::scale(model, glm::vec3(1.5f, 1.2f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		dados_mesa.RenderModel();
 		//vaso
 		model = glm::translate(model, glm::vec3(3.0f, 5.0f, 3.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		dados_vaso.RenderModel();
 		//dado1
 		model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
@@ -1034,22 +1056,23 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 3.5f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		dados_cubo2.RenderModel();
-		//OBJETOS ESTRELLA Y HONGO
+
+		//JUEGO HACHA
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(50.0f, 2.0f + sin(contabasico*0.3), 150.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.0f)));
+		model = glm::translate(model, glm::vec3(-200.0f, -1.5f, -80.0f));
+		modelaux = model;
+		model = glm::rotate(model, 65 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.2f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		estrellita.RenderModel();
+		CabinaHacha.RenderModel();
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f + sin(contabasico*0.05)*20.0f, 0.3f, 150.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+		model = glm::translate(model, glm::vec3(-200.0f, -1.5f, -80.0f));
+		modelaux = model;
+		model = glm::rotate(model, 65 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.2f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		hongo_verde.RenderModel();
+		Axe.RenderModel();
 
 		// ------------------------------------------------------- PUESTOS DE COMIDA ---------------------------------------------------
 		//Puesto de tacos
@@ -1059,13 +1082,10 @@ int main()
 		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(13.0f, 13.0f, 13.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		puesto_tacos.RenderModel();
 		//Trompo de la carne al pastor
 		model = glm::translate(model, glm::vec3(-0.15f, -0.15f, 0.63f));
-		model = glm::rotate(model, sin(contabasico * 0.01f)*10.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		trompo_pastor.RenderModel();
 
 
@@ -1077,7 +1097,6 @@ int main()
 		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		pikachu.RenderModel();
 		//Cola
 		model = glm::translate(model, glm::vec3(0.0f, 0.8f, 1.0f));
@@ -1094,17 +1113,14 @@ int main()
 		model = glm::translate(model, glm::vec3(250.0f, 15.0f, 250.0f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		charizard.RenderModel();
 		//Ala derecha
 		model = glm::translate(model, glm::vec3(0.5f, 0.0f, -1.2f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		ala_der_char.RenderModel();
 		//Ala izquierda
 		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		ala_izq_char.RenderModel();
 
 		//Lucario
@@ -1112,19 +1128,55 @@ int main()
 		model = glm::translate(model, glm::vec3(-30.0f, 11.8f, 250.0f));
 		model = glm::scale(model, glm::vec3(1.3f, 1.3f, 1.3f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		lucario.RenderModel();
 		//brazo derecho
 		model = glm::translate(model, glm::vec3(-1.7f, 3.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		brazo_der_luc.RenderModel();
 		//brazo izquierdo
 		model = glm::translate(model, glm::vec3(3.4f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		brazo_izq_luc.RenderModel();
 
+		//Perry
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-150.0f, 0.0f, -90.0f));
+		model = glm::rotate(model, 65 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_Cuerpo.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.68f, 2.05f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_BrazoD.RenderModel();
+
+		float rotationAngle = sin(now * 1.5f) * glm::radians(-10.0f); // rotación senoidal entre -45° y 45°
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.65f, 2.06f, 0.0f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotationAngle, glm::vec3(0.0f, 0.0f, 1.0f));     // rotación senoidal en Y
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_BrazoI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.4f, 0.43f, -0.16f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_PiernaD.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.5f, 0.43f, -0.16f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_PiernaI.RenderModel();
+
+		float rotationAngleS = sin(now * 1.5f) * glm::radians(20.0f); // rotación senoidal entre -45° y 45°
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(1.2f, 3.7f, 0.0f));
+		model = glm::rotate(model, -20 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotationAngleS, glm::vec3(0.0f, 0.0f, 1.0f));     // rotación senoidal en Y
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perry_Sombrero.RenderModel();
 
 		glDisable(GL_BLEND);
 
