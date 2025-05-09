@@ -635,7 +635,7 @@ int main()
 			else {
 				//en caso de no estar cerca de ningún juego, se manda a una vista general del mapa
 				//PARA PROBAR LA FUNCIÓN lookAtTarget de tu juego, puedes ponerlo aquí para evitar caminar hasta el lugar del mapa
-				camara3.lookAtTarget(glm::vec3(0.0f, 50.0f, 300.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+				camara3.lookAtTarget(glm::vec3(0.0f, 35.0f, 350.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 			}
 			//Se inicia cámara
@@ -754,7 +754,7 @@ int main()
 		//cuerpo
 		model = glm::mat4(1.0);
 		//Posición se ajusta para el avatar
-		model = glm::translate(model, glm::vec3(0.0f - mainWindow.getposlat(), 4.5f, 295.0f - mainWindow.getposfron())); //mov del avatar (cambiar a phineas)
+		model = glm::translate(model, glm::vec3(0.0f - mainWindow.getposlat(), 5.5f, 295.0f - mainWindow.getposfron())); //mov del avatar (cambiar a phineas)
 		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //ROTACIÖN OBLIGATORIA EN AVATAR
 		model = glm::rotate(model, rotavatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //rotación del avatar (cambiar a phineas)
 		model = glm::scale(model, glm::vec3(11.0f, 11.0f, 11.0f));
