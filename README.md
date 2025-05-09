@@ -9,7 +9,7 @@ CompuGraf25-2
 ### LABORATORIO DE COMPUTACIÓN GRÁFICA e INTERACCIÓN HUMANO COMPUTADORA
 
 Integrantes del equipo:
-- **Aguilar Perez José Ramón**
+- **Aguilar Perez José Ramón - 317515048**
 - **Dominguez Chavez Jesus Abner - 319319969**
 - **Sanchez Calvillo Saida Mayela - 318164481**
 - **Sanchez Villalpando Johan**
