@@ -509,7 +509,7 @@ int main()
 
 	//VARIABLE solAng para modificar el angulo en tiempo de ejecución.
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.4f, 0.4f,
+		0.3f, 0.3f,
 		0.0f, -1.0f, 0.0f);
 
 	//------------------------------------------------ LUCES PARA LOS GLOBOS --------------------------------------------------
