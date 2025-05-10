@@ -1115,8 +1115,8 @@ int main()
 				muevebola = -40.0f; //Limite para evitar atasco
 				pelotaOffset *= -1.0f;
 			}
-
 		}
+		else { muevebate = 0.0f, muevebola = 0.0f, bateOffset = 0.5f, pelotaOffset = 0.4f; }
 
 		//ANIMACION DE TOPOS
 		if (juegoactivo == 5 && monedamovy < -7.0f) {
@@ -1157,8 +1157,8 @@ int main()
 					pinoOffset *= 0.0f;
 				}
 			}
-
 		}
+		else { muevepino = 0.0f, muevevoltorb = 0.0f, voltorbOffset = 0.3f, pinoOffset = 2.0f; }
 
 		if (!globosPonchados) {
 			model = glm::mat4(1.0);
