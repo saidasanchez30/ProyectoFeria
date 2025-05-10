@@ -855,41 +855,23 @@ int main()
 
 		// ------------------------------------------------------- ACTIVACIÓN DE LUCES --------------------------------------------------------
 
-		bool lucesEspeciales = false;
-
-		if (solAng >= 80.0f && solAng < 250.0f)  //NOCHE
-		{
-			if (mainWindow.getcamtype() == 2)  // Modo juego
-			{
-				if (juegoactivo == 3) {  // Globos
-					shaderList[0].SetPointLights(lucesGlobos, lucesGlobosCount);
-					shaderList[0].SetSpotLights(spotLights, 0);  // desactiva spots generales si los hay
-					lucesEspeciales = true;
-				}
-				else if (juegoactivo == 2) {  // Hacha
-					shaderList[0].SetPointLights(lucesHacha, lucesHachaCount);
-					shaderList[0].SetSpotLights(spotLights, 0);
-					lucesEspeciales = true;
-				}
-				else if (juegoactivo == 1) {  // Dados
-					shaderList[0].SetPointLights(pointLights, 0);  // sin pointlights adicionales
-					shaderList[0].SetSpotLights(lucesDados, lucesDadosCount);  // activa spots para dados
-					lucesEspeciales = true;
-				}
-			}
-
-			if (!lucesEspeciales &&
-				(mainWindow.getcamtype() == 0 || mainWindow.getcamtype() == 1 || mainWindow.getcamtype() == 3))
-			{
-				shaderList[0].SetPointLights(lucesFeria, lucesFeriaCount);
-				shaderList[0].SetSpotLights(spotLights, spotLightCount);  // si tienes spotlights nocturnos globales
-			}
+		if (mainWindow.getcamtype() == 2 && juegoactivo == 1 && solAng >= 80.0f && solAng < 250.0f) {
+			shaderList[0].SetSpotLights(lucesDados, lucesDadosCount); // Luces del juego de dados
 		}
-		else
-		{
-			// Día: solo luces base
-			shaderList[0].SetPointLights(pointLights, pointLightCount);
+		else if (mainWindow.getcamtype() == 2 && juegoactivo == 2 && solAng >= 80.0f && solAng < 250.0f) {
+			shaderList[0].SetPointLights(lucesHacha, lucesHachaCount); // Luces del juego de hacha
+		}
+		else if (mainWindow.getcamtype() == 2 && juegoactivo == 3 && solAng >= 80.0f && solAng < 250.0f) {
+			shaderList[0].SetPointLights(lucesGlobos, lucesGlobosCount); // Luces del juego de globos
+		}
+		else {
+			shaderList[0].SetPointLights(pointLights, pointLightCount); // Luces por defecto
 			shaderList[0].SetSpotLights(spotLights, spotLightCount);
+		}
+
+		if ((mainWindow.getcamtype() == 0 || mainWindow.getcamtype() == 1 || mainWindow.getcamtype() == 3) &&
+			solAng >= 80.0f && solAng < 250.0f) {
+			shaderList[0].SetPointLights(lucesFeria, lucesFeriaCount);
 		}
 
 
