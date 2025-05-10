@@ -76,6 +76,9 @@ Model estrellita;
 Model hongo_verde;
 Model moneda;
 Model tragamoneda;
+Model toad_cuerpo;
+Model toad_b_izq;
+Model toad_b_der;
 
 //PHINEAS
 Model phineas_cuerpo;
@@ -321,6 +324,14 @@ int main()
 	moneda.LoadModel("Models/Mario/moneda.obj");
 	tragamoneda = Model(); //Creamos modelo
 	tragamoneda.LoadModel("Models/tragamoneda.obj");
+
+	//MODELO TOAD
+	toad_cuerpo = Model(); //Creamos modelo
+	toad_cuerpo.LoadModel("Models/toad_cuerpo.obj");
+	toad_b_izq = Model(); //Creamos modelo
+	toad_b_izq.LoadModel("Models/toad_b_izq.obj");
+	toad_b_der = Model(); //Creamos modelo
+	toad_b_der.LoadModel("Models/toad_b_der.obj");
 
 	//MODELO PHINEAS
 	phineas_cuerpo = Model();
@@ -1892,6 +1903,25 @@ int main()
 		model = glm::rotate(model, rotationAngleS, glm::vec3(0.0f, 0.0f, 1.0f));     // rotación senoidal en Y
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Perry_Sombrero.RenderModel();
+
+		//TOAD---------------------
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-35.0f, 1.0f, 70.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_tela.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		modelaux = model;
+		toad_cuerpo.RenderModel();
+		//brazos
+		model = glm::translate(model, glm::vec3(1.0f, 2.0f, 0.0f));
+		model = glm::rotate(model, sin(contabasico * 0.06f) * 0.6f, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toad_b_der.RenderModel();
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-1.0f, 2.0f, 0.0f));
+		model = glm::rotate(model, -sin(contabasico * 0.06f) * 0.6f, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toad_b_izq.RenderModel();
 
 		//----------------------------------------------------------- OBJETOS DE UNIVERSOS -------------------------------------------------- 
 		//ESTRELLA DE MARIO BROS
