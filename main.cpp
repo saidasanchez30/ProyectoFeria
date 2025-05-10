@@ -776,11 +776,32 @@ int main()
 				dentrojuego = 1.0f;
 				juegoactivo = 2;
 			}
+			//CONDICION JUEGO DARDOS, para inicializar camara
 			else if (mainWindow.getposlat() > 119.0f && mainWindow.getposlat() < 173.0f
 				&& mainWindow.getposfron() > 139.0f && mainWindow.getposfron() < 205.0f) {
 				camara3.lookAtTarget(glm::vec3(-135.0f, 18.0f, 130.0f), glm::vec3(-200.0f, 18.0f, 160.0f));
 				dentrojuego = 1.0f;
 				juegoactivo = 3;
+			}
+			//CONDICION JUEGO JAULA DE BATEO, para inicializar camara 
+			else if (mainWindow.getposlat() > -89.0f && mainWindow.getposlat() < -27.0f
+				&& mainWindow.getposfron() > 472.0f && mainWindow.getposfron() < 527.0f) {
+				camara3.lookAtTarget(glm::vec3(30.0f, 18.0f, -190.0f), glm::vec3(200.0f, 18.0f, -190.0f));
+				dentrojuego = 1.0f;
+				juegoactivo = 4;
+			}//CONDICION JUEGO TOPOS, para inicializar camara
+			else if (mainWindow.getposlat() > -156.0f && mainWindow.getposlat() < -136.0f
+				&& mainWindow.getposfron() > 313.0f && mainWindow.getposfron() < 360.0f) {
+				camara3.lookAtTarget(glm::vec3(120.0f, 40.0f, -30.0f), glm::vec3(180.0f, 0.0f, -50.0f));
+				dentrojuego = 1.0f;
+				juegoactivo = 5;
+			}
+			//CONDICION JUEGO BOLOS, para inicializar camara
+			else if (mainWindow.getposlat() > -137.0f && mainWindow.getposlat() < -106.0f
+				&& mainWindow.getposfron() > 162.0f && mainWindow.getposfron() < 204.0f) {
+				camara3.lookAtTarget(glm::vec3(95.0f, 35.0f, 100.0f), glm::vec3(150.0f, 5.0f, 130.0f));
+				dentrojuego = 1.0f;
+				juegoactivo = 6;
 			}
 			/// else if (conidiciones de tu juego) { cámara posicionada en tu juego } 
 			else {
@@ -811,7 +832,7 @@ int main()
 
 		//------------------------------------------------------------------- ACTIVACION DE LUCES -------------------------------------------/
 		//shaderList[0].SetPointLights(pointLights, pointLightCount);
-		
+
 		bool esNoche = (solAng >= 80.0f && solAng < 250.0f);
 		int camType = mainWindow.getcamtype();
 
@@ -837,7 +858,7 @@ int main()
 			shaderList[0].SetSpotLights(spotLights, spotLightCount);
 		}
 
-		
+
 		//print para saber posición del avatar
 		//printf("\nposlat: %f ,  posfron: %f", mainWindow.getposlat(), mainWindow.getposfron());
 
@@ -1631,9 +1652,9 @@ int main()
 
 		//JUEGO TOPOS
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(185.0f, 10.0f, -75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		model = glm::rotate(model, -145 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(165.0f, 5.8f, -40.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, -170 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		topos.RenderModel();
 		//__MAZO
@@ -1644,24 +1665,44 @@ int main()
 		mazo.RenderModel();
 		//__Topos
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-1.9f, 3.0f + desplazamientoGlobo, -6.3f));
+		model = glm::translate(model, glm::vec3(-1.9f, 3.0f, -6.3f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		topito.RenderModel();
-		model = glm::translate(model, glm::vec3(5.7f, 0.0f + desplazamientoGlobo, 0.0f));
+		model = glm::translate(model, glm::vec3(5.7f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		topito.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f - desplazamientoGlobo, 6.3f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 6.3f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		topito.RenderModel();
-		model = glm::translate(model, glm::vec3(-5.7f, 0.0f + desplazamientoGlobo, 0.0f));
+		model = glm::translate(model, glm::vec3(-5.7f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		topito.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f - desplazamientoGlobo, 6.3f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 6.3f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		topito.RenderModel();
-		model = glm::translate(model, glm::vec3(5.7f, 0.0f + desplazamientoGlobo, 0.0f));
+		model = glm::translate(model, glm::vec3(5.7f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		topito.RenderModel();
+
+		//SECCIÓN DE MAQUINAS PARA MONEDAS
+		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
+		//Maquina de monedas sobre juego TOPOS:
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(150.0f, 0.0f, -60.0f));
+		model = glm::rotate(model, 120 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		tragamoneda.RenderModel();
+		//MONEDA RELATIVA AL TRAGAMONEDAS
+		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
+			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			moneda.RenderModel();
+		}
 
 		//JUEGO DE JAULA DE BATEO
 		model = glm::mat4(1.0);
@@ -1685,8 +1726,9 @@ int main()
 		guardabolas.RenderModel();
 		//Bate
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-15.0f, -22.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
+		model = glm::translate(model, glm::vec3(-15.0f, -10.0f, 7.0f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, -60 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bate.RenderModel();
 		//Pokeball
@@ -1697,9 +1739,29 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pokeball.RenderModel();
 
+		//SECCIÓN DE MAQUINAS PARA MONEDAS
+		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
+		//Maquina de monedas sobre juego JAULA DE BATEO:
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(70.0f, 0.0f, -215.0f));
+		model = glm::rotate(model, 60 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		tragamoneda.RenderModel();
+		//MONEDA RELATIVA AL TRAGAMONEDAS
+		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
+			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			moneda.RenderModel();
+		}
+
 		//JUEGO DE BOLOS
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(170.0f, 3.0f, 155.0f));
+		model = glm::translate(model, glm::vec3(165.0f, 3.0f, 145.0f));
 		model = glm::rotate(model, -130 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1741,6 +1803,26 @@ int main()
 		model = glm::translate(model, glm::vec3(-2.5f, 0.0f, -3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pino.RenderModel();
+
+		//SECCIÓN DE MAQUINAS PARA MONEDAS
+		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
+		//Maquina de monedas sobre juego JAULA DE BATEO:
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(140.0f, 0.0f, 100.0f));
+		model = glm::rotate(model, 65 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		tragamoneda.RenderModel();
+		//MONEDA RELATIVA AL TRAGAMONEDAS
+		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
+			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			moneda.RenderModel();
+		}
 
 
 
