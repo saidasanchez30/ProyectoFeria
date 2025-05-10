@@ -182,16 +182,14 @@ static double limitFPS = 1.0 / 60.0;
 
 // luz direccional
 DirectionalLight mainLight;
-//para declarar varias luces de tipo pointlight
+//LUCES TIPO POINTLIGHT
 PointLight pointLights[MAX_POINT_LIGHTS];
-PointLight lucesGlobos[MAX_POINT_LIGHTS];
-PointLight lucesHacha[MAX_POINT_LIGHTS];
-PointLight lucesJaula[MAX_POINT_LIGHTS];
 PointLight lucesFeria[MAX_POINT_LIGHTS];
-//LUCES TIPO SPOTLIGHT
+PointLight lucesHacha[MAX_POINT_LIGHTS];
+PointLight lucesGlobos[MAX_POINT_LIGHTS];
+//LUCES TIPO SPOTLIGHTS
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 SpotLight lucesDados[MAX_SPOT_LIGHTS];
-SpotLight lucesSpotJaula[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
@@ -332,16 +330,6 @@ int main()
 	phineas_piernaD.LoadModel("Models/Phineas/phineas_piernaD.obj");
 	phineas_piernaI = Model();
 	phineas_piernaI.LoadModel("Models/Phineas/phineas_piernaI.obj");
-
-	//MODELO HOLLOW KNIGHT
-	cuerpo = Model(); 
-	cuerpo.LoadModel("Models/HollowKnight/cuerpo.obj");
-	mano_izq = Model(); 
-	mano_izq.LoadModel("Models/HollowKnight/mano_izq.obj");
-	capa = Model(); 
-	capa.LoadModel("Models/HollowKnight/capa.obj");
-	mask = Model(); 
-	mask.LoadModel("Models/HollowKnight/mask.obj");
 
 	//MODELOS ENTORNO
 	valla = Model();
@@ -511,99 +499,34 @@ int main()
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
 		0.0f, -1.0f, 0.0f);
+	//contador de luces puntuales
+	unsigned int pointLightCount = 0;
+	//Declaración de primer luz puntual
+	/*pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
+		0.0f, 1.0f,
+		0.0f, 2.5f, 1.5f,
+		0.3f, 0.2f, 0.1f);
+	pointLightCount++;*/
 
-	//------------------------------------------------ LUCES PARA LOS GLOBOS --------------------------------------------------
-	unsigned int lucesGlobosCount = 0;
+	unsigned int spotLightCount = 0;
+	////linterna
+	//spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+	//	0.0f, 2.0f,
+	//	0.0f, 0.0f, 0.0f,
+	//	0.0f, -1.0f, 0.0f,
+	//	1.0f, 0.0f, 0.0f,
+	//	5.0f);
+	//spotLightCount++;
 
-	lucesGlobos[0] = PointLight(1.0f, 0.8f, 0.6f,       // Color cálido 
-		1.5f, 1.0f,             // Intensidad 
-		-175.0f, 15.0f, 180.0f, // Posición
-		0.3f, 0.05f, 0.01f);    // Atenuación (mayor alcance)
-	lucesGlobosCount++;
+	//luz fija
+	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
+		1.0f, 2.0f,
+		5.0f, 10.0f, 0.0f,
+		0.0f, -5.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		15.0f);
+	spotLightCount++;
 
-	lucesGlobos[1] = PointLight(1.0f, 0.8f, 0.6f,
-		1.5f, 1.0f,             
-		-190.0f, 15.0f, 150.0f,  
-		0.3f, 0.05f, 0.01f);    
-	lucesGlobosCount++;
-
-	lucesGlobos[2] = PointLight(1.0f, 0.8f, 0.6f,
-		1.5f, 1.0f,
-		-199.0f, 15.0f, 105.0f,
-		0.3f, 0.05f, 0.01f);
-	lucesGlobosCount++;
-
-	//---------------------------------------------------LUCES PARA LAS HACHAS ---------------------------------------------
-	unsigned int lucesHachaCount = 0;
-
-	lucesHacha[0] = PointLight(1.0f, 0.8f, 0.6f,        // Color cálido
-		0.6f, 0.4f,               
-		-180.0f, 30.0f, -78.0f,
-		0.2f, 0.02f, 0.005f);     //Atenuación
-	lucesHachaCount++;
-
-	lucesHacha[1] = PointLight(1.0f, 0.8f, 0.6f,
-		0.6f, 0.4f,               //Menor brillo
-		-200.0f, 20.0f, -80.0f,
-		0.2f, 0.02f, 0.005f);
-	lucesHachaCount++;
-
-	lucesHacha[2] = PointLight(1.0f, 0.8f, 0.6f,
-		0.6f, 0.4f,
-		-215.0f, 30.0f, -83.0f,
-		0.2f, 0.02f, 0.005f);
-	lucesHachaCount++;
-
-	//-------------------------------------------------------LUCES PARA LOS DADOS ----------------------------------------------
-	unsigned int lucesDadosCount = 0;
-
-	lucesDados[0] = SpotLight(
-		1.0f, 0.8f, 0.6f,                // Color calido
-		1.5f, 2.0f,                      
-		-100.0f, 30.0f, -200.0f,          // Posición 
-		0.0f, -1.0f, 0.0f,             // Dirección 
-		0.3f, 0.02f, 0.005f,             // Atenuación
-		52.0f                           // Ángulo 
-	);
-	lucesDadosCount++;
-
-	//--------------------------------------------------LUCES PARA LA JAULA DE BATEO -------------------------------------------------
-	unsigned int lucesJaulaCount = 0;
-
-	lucesJaula[0] = PointLight(1.0f, 0.9f, 0.7f,    // Luz cálida
-		0.5f, 0.4f,                  // Intensidades suaves
-		95.0f, 25.0f, -170.0f,       // Esquina superior derecha
-		0.3f, 0.02f, 0.01f);
-	lucesJaulaCount++;
-
-	lucesJaula[1] = PointLight(1.0f, 0.9f, 0.7f,
-		0.5f, 0.4f,
-		85.0f, 25.0f, -210.0f,       // Esquina superior izquierda
-		0.3f, 0.02f, 0.01f);
-	lucesJaulaCount++;
-
-	lucesJaula[2] = PointLight(1.0f, 0.9f, 0.7f,
-		0.5f, 0.4f,
-		95.0f, 20.0f, -200.0f,       // Centro arriba
-		0.3f, 0.02f, 0.01f);
-	lucesJaulaCount++;
-
-	lucesJaula[3] = PointLight(1.0f, 0.9f, 0.7f,
-		0.5f, 0.4f,
-		85.0f, 20.0f, -180.0f,       // Centro opuesto
-		0.3f, 0.02f, 0.01f);
-	lucesJaulaCount++;
-
-	unsigned int lucesSpotJaulaCount = 0;
-	lucesSpotJaula[0] = SpotLight(1.0f, 1.0f, 0.8f,     // Color blanco cálido
-		0.7f, 0.5f,                         // Ambient y diffuse
-		90.0f, 30.0f, -190.0f,              // Posición en lo alto de la jaula
-		0.0f, -1.0f, 0.0f,                  // Dirección hacia abajo
-		1.0f, 0.0f, 0.0f,                   // Atenuación (mínima)
-		15.0f);                             // Ángulo del cono
-	lucesSpotJaulaCount++;
-
-	
 	//----------------------------------------------------- LUCES DE NOCHE ------------------------------------------
 
 	unsigned int lucesFeriaCount = 0;
@@ -632,27 +555,60 @@ int main()
 		0.02f, 0.002f, 0.0003f);
 	lucesFeriaCount++;
 
+	//-------------------------------------------------------LUCES PARA LOS DADOS ----------------------------------------------
+	unsigned int lucesDadosCount = 0;
 
-	//---------------------------------------------------- OTRAS LUCES ---------------------------------------------
-	unsigned int pointLightCount = 0;
+	lucesDados[0] = SpotLight(
+		1.0f, 0.8f, 0.6f,                // Color calido
+		1.5f, 2.0f,
+		-100.0f, 30.0f, -200.0f,          // Posición 
+		0.0f, -1.0f, 0.0f,             // Dirección 
+		0.3f, 0.02f, 0.005f,             // Atenuación
+		52.0f                           // Ángulo 
+	);
+	lucesDadosCount++;
 
-	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
-		0.3f, 0.3f,
-		-168.0f, 30.0f, 168.0f,
+	//---------------------------------------------------LUCES PARA LAS HACHAS ---------------------------------------------
+	unsigned int lucesHachaCount = 0;
+
+	lucesHacha[0] = PointLight(1.0f, 0.8f, 0.6f,        // Color cálido
+		0.6f, 0.4f,
+		-180.0f, 30.0f, -78.0f,
+		0.2f, 0.02f, 0.005f);     //Atenuación
+	lucesHachaCount++;
+
+	lucesHacha[1] = PointLight(1.0f, 0.8f, 0.6f,
+		0.6f, 0.4f,               //Menor brillo
+		-200.0f, 20.0f, -80.0f,
+		0.2f, 0.02f, 0.005f);
+	lucesHachaCount++;
+
+	lucesHacha[2] = PointLight(1.0f, 0.8f, 0.6f,
+		0.6f, 0.4f,
+		-215.0f, 30.0f, -83.0f,
+		0.2f, 0.02f, 0.005f);
+	lucesHachaCount++;
+
+	//------------------------------------------------ LUCES PARA LOS GLOBOS --------------------------------------------------
+	unsigned int lucesGlobosCount = 0;
+
+	lucesGlobos[0] = PointLight(1.0f, 0.8f, 0.6f,       // Color cálido 
+		1.5f, 1.0f,             // Intensidad 
+		-175.0f, 15.0f, 180.0f, // Posición
+		0.3f, 0.05f, 0.01f);    // Atenuación (mayor alcance)
+	lucesGlobosCount++;
+
+	lucesGlobos[1] = PointLight(1.0f, 0.8f, 0.6f,
+		1.5f, 1.0f,
+		-190.0f, 15.0f, 150.0f,
 		0.3f, 0.05f, 0.01f);
-	pointLightCount++;
+	lucesGlobosCount++;
 
-	unsigned int spotLightCount = 0;
-	
-	//luz fija
-	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
-		1.0f, 2.0f,
-		5.0f, 10.0f, 0.0f,
-		0.0f, -5.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		15.0f);
-	spotLightCount++;
-
+	lucesGlobos[2] = PointLight(1.0f, 0.8f, 0.6f,
+		1.5f, 1.0f,
+		-199.0f, 15.0f, 105.0f,
+		0.3f, 0.05f, 0.01f);
+	lucesGlobosCount++;
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -748,10 +704,10 @@ int main()
 				skybox_t.DrawSkybox(camara1.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
-				skybox_t.DrawSkybox(camara2.calculateViewMatrix(), projection);
+				skybox.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 2) { //camara viendo juego
-				skybox_t.DrawSkybox(camara3.calculateViewMatrix(), projection);
+				skybox.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 3) { //camara editor, se debe remover una vez se termine el juego.
 				skybox_t.DrawSkybox(camara4.calculateViewMatrix(), projection);
@@ -853,30 +809,37 @@ int main()
 
 		shaderList[0].SetDirectionalLight(&mainLight);
 
-		// ------------------------------------------------------- ACTIVACIÓN DE LUCES --------------------------------------------------------
+		//------------------------------------------------------------------- ACTIVACION DE LUCES -------------------------------------------/
+		//shaderList[0].SetPointLights(pointLights, pointLightCount);
+		
+		bool esNoche = (solAng >= 80.0f && solAng < 250.0f);
+		int camType = mainWindow.getcamtype();
 
-		if (mainWindow.getcamtype() == 2 && juegoactivo == 1 && solAng >= 80.0f && solAng < 250.0f) {
-			shaderList[0].SetSpotLights(lucesDados, lucesDadosCount); // Luces del juego de dados
+		// ----- LUCES PUNTUALES --------
+		if ((camType == 0 || camType == 1 || camType == 3) && esNoche) {
+			shaderList[0].SetPointLights(lucesFeria, lucesFeriaCount);
 		}
-		else if (mainWindow.getcamtype() == 2 && juegoactivo == 2 && solAng >= 80.0f && solAng < 250.0f) {
-			shaderList[0].SetPointLights(lucesHacha, lucesHachaCount); // Luces del juego de hacha
+		else if (camType == 2 && juegoactivo == 2 && esNoche) {
+			shaderList[0].SetPointLights(lucesHacha, lucesHachaCount);
 		}
-		else if (mainWindow.getcamtype() == 2 && juegoactivo == 3 && solAng >= 80.0f && solAng < 250.0f) {
-			shaderList[0].SetPointLights(lucesGlobos, lucesGlobosCount); // Luces del juego de globos
+		else if (camType == 2 && juegoactivo == 3 && esNoche) {
+			shaderList[0].SetPointLights(lucesGlobos, lucesGlobosCount);
 		}
 		else {
-			shaderList[0].SetPointLights(pointLights, pointLightCount); // Luces por defecto
+			shaderList[0].SetPointLights(pointLights, pointLightCount);
+		}
+
+		// ----- LUCES SPOTLIGHTS -----
+		if (camType == 2 && juegoactivo == 1 && esNoche) {
+			shaderList[0].SetSpotLights(lucesDados, lucesDadosCount);
+		}
+		else {
 			shaderList[0].SetSpotLights(spotLights, spotLightCount);
 		}
 
-		if ((mainWindow.getcamtype() == 0 || mainWindow.getcamtype() == 1 || mainWindow.getcamtype() == 3) &&
-			solAng >= 80.0f && solAng < 250.0f) {
-			shaderList[0].SetPointLights(lucesFeria, lucesFeriaCount);
-		}
-
-
+		
 		//print para saber posición del avatar
-		printf("\nposlat: %f ,  posfron: %f", mainWindow.getposlat(), mainWindow.getposfron());
+		//printf("\nposlat: %f ,  posfron: %f", mainWindow.getposlat(), mainWindow.getposfron());
 
 		//Función para ciclo dia/noche usando solAng
 		solAng += VelSol * deltaTime; //se aumenta el angulo del sol con forme al deltatime y la velocidad del sol
@@ -907,7 +870,6 @@ int main()
 
 		meshList[0]->RenderMesh();
 
-		//--------------------------------------------------------------------- ANIMACIONES DE JUEGOS CON MONEDAS -----------------------------------------------
 		//ANIMACIÓN JUEGO DADOS
 		if (juegoactivo == 1 && monedamovy < -7.0f) { //se verifica que estemos en ese juego
 			animationTime += deltaTime * 0.01;
@@ -1128,7 +1090,6 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 22.0f, 3.6f));
 		model = glm::rotate(model, 20 * toRadians * desplazamientoGlobo, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		mano_izq.RenderModel();
 		//CAPA
 		model = modelaux;
@@ -1611,7 +1572,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		globo3.RenderModel();
 		model = glm::translate(model, glm::vec3(-7.0f, 0.0f, 0.0f)); //z, y, x   
-		
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		globo3.RenderModel();
 		model = glm::translate(model, glm::vec3(-7.0f, 0.0f, 0.0f));
@@ -1924,7 +1885,6 @@ int main()
 		model = glm::translate(model, glm::vec3(50.0f, 0.5f, -50.0f));
 		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		mask.RenderModel();
 
 		// ------------------------------------------------------------------ ROTULOS --------------------------------------------------------- 
@@ -1951,7 +1911,7 @@ int main()
 
 		//---------------------------------------------------------------SECCIÓN DE MAQUINAS PARA MONEDAS----------------------------------------------
 		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
-		
+
 		//Maquina de monedas sobre juego DADOS:
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-86.5f, -0.5f, -195.0f));
