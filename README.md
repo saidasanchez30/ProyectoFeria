@@ -12,7 +12,7 @@ Integrantes del equipo:
 - **Aguilar Perez José Ramón - 317515048**
 - **Dominguez Chavez Jesus Abner - 319319969**
 - **Sanchez Calvillo Saida Mayela - 318164481**
-- **Sanchez Villalpando Johan**
+- **Sanchez Villalpando Johan - 422028657**
 
 GRUPO DE LABORATORIO: 02\
 GRUPO DE TEORÍA: 04\
