@@ -1290,6 +1290,7 @@ int main()
 		//brazo izquierdo
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(1.3f, 3.0f, 0.0f));
+		model = glm::rotate(model, rotabrazo/2, glm::vec3(1.0f, 0.0f, 0.0f)); 
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		brazo_izq_luc.RenderModel();
 
