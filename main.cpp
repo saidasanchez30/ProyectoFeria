@@ -718,7 +718,7 @@ int main()
 	//algunas variables para avatar y cámara
 	glm::mat4 view;
 	glm::vec3 avatarPos; //posición del avatar
-	float rotavatar, rotavatarY, dentrojuego = 0.0f; //rotación del avatar
+	float rotavatar, rotavatarY;//rotación del avatar
 	//animaciones
 	int juegoactivo = 0; //VARIABLE QUE NOS DICE EN QUÉ JUEGO HACER ANIMACIÓN.
 	float contabasico = 0.0f, monedamovx = 0.0f, monedamovy = 0.0f, animationTime = 0.0f;
@@ -762,7 +762,7 @@ int main()
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
 				skybox_n.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
 				skybox_n.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 3) { //camara editor
@@ -776,7 +776,7 @@ int main()
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
 				skybox_t.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
 				skybox_t.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 3) { //camara editor
@@ -790,7 +790,7 @@ int main()
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
 				skybox.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
 				skybox.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 3) { //camara editor
@@ -804,7 +804,7 @@ int main()
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
 				skybox.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
 				skybox.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 3) { //camara editor
@@ -816,12 +816,12 @@ int main()
 				skybox_t.DrawSkybox(camara1.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
-				skybox.DrawSkybox(camara2.calculateViewMatrix(), projection);
+				skybox_t.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
-				skybox.DrawSkybox(camara3.calculateViewMatrix(), projection);
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
+				skybox_t.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 3) { //camara editor
+			if (mainWindow.getcamtype() == 8) { //camara editor
 				skybox_t.DrawSkybox(camara4.calculateViewMatrix(), projection);
 			}
 		}
@@ -848,7 +848,6 @@ int main()
 		rotavatarY = mainWindow.getrotavatarY();
 		//CAMARAS	
 		if (mainWindow.getcamtype() == 0) { //vista tercera persona
-			dentrojuego = 0.0f; //no estás en un juego
 			// Offset detrás y arriba del personaje
 			glm::vec3 camOffset = glm::vec3(0.0f, 40.0f, 35.0f);
 			camara1.followObject(avatarPos, camOffset, 10.0f, deltaTime, rotavatar, rotavatarY);
@@ -861,7 +860,6 @@ int main()
 
 		}
 		else if (mainWindow.getcamtype() == 1) { //vista aerea
-			dentrojuego = 0.0f; //no estás en un juego
 			camara2.lookAtTarget(glm::vec3(0.0f, 550.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 			//Se inicia cámara
 			glm::mat4 view = camara2.calculateViewMatrix();
@@ -871,68 +869,51 @@ int main()
 			glUniform3f(uniformEyePosition, camara2.getCameraPosition().x, camara2.getCameraPosition().y, camara2.getCameraPosition().z);
 
 		}
-		else if (mainWindow.getcamtype() == 2) { //vista sobre juego
+		else if (mainWindow.getcamtype() != 1.0 && mainWindow.getcamtype() != 8.0) { //vista sobre juego
 			//PARA LA FUNCIÓN lookAtTarget el primer vector es la posición de la cámara y el segundo vector es la dirección a la que apunta
-
-			//CONDICIÓN JUEGO DADOS, para inicializar cámara
-			if (mainWindow.getposlat() > 70.0f && mainWindow.getposlat() < 110.0f
-				&& mainWindow.getposfron() > 460 && mainWindow.getposfron() < 485.0f) {
+			//CONDICIÓN JUEGO DADOS
+			if (mainWindow.getcamtype() >= 2.0f && mainWindow.getcamtype() < 3.0f) {
 				camara3.lookAtTarget(glm::vec3(-92.5f, 22.5f, -180.0f), glm::vec3(-100.0f, 0.0f, -200.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 1;
 			}
-			//CONDICION JUEGO HACHA, para inicializar cámara
-			else if (mainWindow.getposlat() > 126.0f && mainWindow.getposlat() < 175.0f
-				&& mainWindow.getposfron() > 325.0f && mainWindow.getposfron() < 380.0f) {
+			//CONDICION JUEGO HACHA
+			else if (mainWindow.getcamtype() >= 3.0f && mainWindow.getcamtype() < 4.0f) {
 				camara3.lookAtTarget(glm::vec3(-150.0f, 18.0f, -55.0f), glm::vec3(-200.0f, 18.0f, -80.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 2;
 			}
-			//CONDICION JUEGO JAULA DE DARDOS, para inicializar camara 
-			else if (mainWindow.getposlat() > 119.0f && mainWindow.getposlat() < 173.0f
-				&& mainWindow.getposfron() > 139.0f && mainWindow.getposfron() < 205.0f) {
+			//CONDICION JUEGO JAULA DE DARDOS
+			else if (mainWindow.getcamtype() >= 4.0f && mainWindow.getcamtype() < 5.0f) {
 				camara3.lookAtTarget(glm::vec3(-135.0f, 18.0f, 130.0f), glm::vec3(-200.0f, 18.0f, 160.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 3;
 			}
-			//CONDICION JUEGO JAULA DE BATEO, para inicializar camara 
-			else if (mainWindow.getposlat() > -89.0f && mainWindow.getposlat() < -27.0f
-				&& mainWindow.getposfron() > 472.0f && mainWindow.getposfron() < 527.0f) {
+			//CONDICION JUEGO JAULA DE BATEO
+			else if (mainWindow.getcamtype() >= 5.0f && mainWindow.getcamtype() < 6.0f) {
 				camara3.lookAtTarget(glm::vec3(30.0f, 18.0f, -190.0f), glm::vec3(200.0f, 18.0f, -190.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 4;
 			}
-			//CONDICION JUEGO TOPOS, para inicializar camara
-			else if (mainWindow.getposlat() > -156.0f && mainWindow.getposlat() < -136.0f
-				&& mainWindow.getposfron() > 313.0f && mainWindow.getposfron() < 360.0f) {
+			//CONDICION JUEGO TOPOS
+			else if (mainWindow.getcamtype() >= 6.0f && mainWindow.getcamtype() < 7.0f) {
 				camara3.lookAtTarget(glm::vec3(120.0f, 40.0f, -30.0f), glm::vec3(180.0f, 0.0f, -50.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 5;
 			}
-			//CONDICION JUEGO BOLOS, para inicializar camara
-			else if (mainWindow.getposlat() > -137.0f && mainWindow.getposlat() < -106.0f
-				&& mainWindow.getposfron() > 162.0f && mainWindow.getposfron() < 204.0f) {
+			//CONDICION JUEGO BOLOS
+			else if (mainWindow.getcamtype() >= 7.0f && mainWindow.getcamtype() < 8.0f) {
 				camara3.lookAtTarget(glm::vec3(95.0f, 35.0f, 100.0f), glm::vec3(150.0f, 5.0f, 130.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 6;
 			}
-			else {
-				//en caso de no estar cerca de ningún juego, se manda a una vista general del mapa
-				camara3.lookAtTarget(glm::vec3(0.0f, 35.0f, 350.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-			}
+			printf("\ncamtype, %f", mainWindow.getcamtype());
 			//Se inicia cámara
 			glm::mat4 view = camara3.calculateViewMatrix();
 			glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 			glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
 			glUniform3f(uniformEyePosition, camara3.getCameraPosition().x, camara3.getCameraPosition().y, camara3.getCameraPosition().z);
 		}
-		else if (mainWindow.getcamtype() == 3) { //vista editor
+		else if (mainWindow.getcamtype() == 8) { //vista editor
 			//para cámara editor se usa la cámara de siempre
 			camara4.keyControl(mainWindow.getsKeys(), deltaTime);
 			camara4.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 			camara4.keyControl(mainWindow.getsKeys(), deltaTime);
 			camara4.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-			dentrojuego = 0.0f; //no estás en un juego
 			glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 			glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camara4.calculateViewMatrix()));
 			glUniform3f(uniformEyePosition, camara4.getCameraPosition().x, camara4.getCameraPosition().y, camara4.getCameraPosition().z);
@@ -1053,7 +1034,7 @@ int main()
 		}
 
 		//ANIMACION MONEDA AÑADIR ACTIVADOR CON TECLA
-		if (dentrojuego == 1.0f) {
+		if (mainWindow.getdentrojuego() == 1.0f) {
 			if (monedamovx <= 20.0F) {
 				monedamovx += 0.02f * deltaTime * 8.0f;
 				monedamovy -= 0.006f * deltaTime * 8.0f;
@@ -1893,7 +1874,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -1951,7 +1932,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2029,7 +2010,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2235,7 +2216,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2253,7 +2234,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2271,7 +2252,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2289,7 +2270,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2307,7 +2288,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2325,7 +2306,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
