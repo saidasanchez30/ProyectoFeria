@@ -124,6 +124,15 @@ Model valla;
 Model arbol_central;
 Model entrada;
 Model piso_piedras;
+Model rueda;
+Model canastas;
+Model base;
+Model carrusel;
+Model centro;
+Model caballo;
+Model caballo2;
+Model caballo3;
+Model caballo4;
 
 //PUESTOS DE COMIDA
 Model puesto_tacos;
@@ -379,6 +388,24 @@ int main()
 	entrada.LoadModel("Models/Entrada.obj");
 	piso_piedras = Model();
 	piso_piedras.LoadModel("Models/piso_piedras.obj");
+	rueda = Model();
+	rueda.LoadModel("Models/Rueda/rueda.obj");
+	canastas= Model();
+	canastas.LoadModel("Models/Rueda/Canastas.obj");
+	base = Model();
+	base.LoadModel("Models/Rueda/base.obj");
+	carrusel = Model();
+	carrusel.LoadModel("Models/Carrusel/carrusel.obj");
+	centro = Model();
+	centro.LoadModel("Models/Carrusel/centro.obj");
+	caballo = Model();
+	caballo.LoadModel("Models/Carrusel/caballo.obj");
+	caballo2 = Model();
+	caballo2.LoadModel("Models/Carrusel/caballo2.obj");
+	caballo3 = Model();
+	caballo3.LoadModel("Models/Carrusel/caballo3.obj");
+	caballo4 = Model();
+	caballo4.LoadModel("Models/Carrusel/caballo4.obj");
 
 	//Modelo Puesto de tacos
 	puesto_tacos = Model();
@@ -718,7 +745,7 @@ int main()
 	//algunas variables para avatar y cámara
 	glm::mat4 view;
 	glm::vec3 avatarPos; //posición del avatar
-	float rotavatar, rotavatarY, dentrojuego = 0.0f; //rotación del avatar
+	float rotavatar, rotavatarY;//rotación del avatar
 	//animaciones
 	int juegoactivo = 0; //VARIABLE QUE NOS DICE EN QUÉ JUEGO HACER ANIMACIÓN.
 	float contabasico = 0.0f, monedamovx = 0.0f, monedamovy = 0.0f, animationTime = 0.0f;
@@ -730,13 +757,13 @@ int main()
 	float muevepino = 0.0f, muevevoltorb = 0.0f, voltorbOffset = 0.3f, pinoOffset = 2.0f;
 	bool globosPonchados = false;
 
-	sf::Music music;
-	//Reproduccion de musica fuera del ciclo
-	music.openFromFile("soundtrack.wav");
-	music.setVolume(100.f);
-	music.setPitch(1.0f);
-	music.setLoop(true);
-	music.play();
+	//sf::Music music;
+	////Reproduccion de musica fuera del ciclo
+	//music.openFromFile("soundtrack.wav");
+	//music.setVolume(100.f);
+	//music.setPitch(1.0f);
+	//music.setLoop(true);
+	//music.play();
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -762,10 +789,10 @@ int main()
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
 				skybox_n.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
 				skybox_n.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 3) { //camara editor
+			if (mainWindow.getcamtype() == 8) { //camara editor
 				skybox_n.DrawSkybox(camara4.calculateViewMatrix(), projection);
 			}
 		}
@@ -776,10 +803,10 @@ int main()
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
 				skybox_t.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
 				skybox_t.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 3) { //camara editor
+			if (mainWindow.getcamtype() == 8) { //camara editor
 				skybox_t.DrawSkybox(camara4.calculateViewMatrix(), projection);
 			}
 		}
@@ -790,10 +817,10 @@ int main()
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
 				skybox.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
 				skybox.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 3) { //camara editor
+			if (mainWindow.getcamtype() == 8) { //camara editor
 				skybox.DrawSkybox(camara4.calculateViewMatrix(), projection);
 			}
 		}
@@ -804,10 +831,10 @@ int main()
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
 				skybox.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
 				skybox.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 3) { //camara editor
+			if (mainWindow.getcamtype() == 8) { //camara editor
 				skybox.DrawSkybox(camara4.calculateViewMatrix(), projection);
 			}
 		}
@@ -816,12 +843,12 @@ int main()
 				skybox_t.DrawSkybox(camara1.calculateViewMatrix(), projection);
 			}
 			if (mainWindow.getcamtype() == 1) { //camara desde arriba
-				skybox.DrawSkybox(camara2.calculateViewMatrix(), projection);
+				skybox_t.DrawSkybox(camara2.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 2) { //camara viendo juego
-				skybox.DrawSkybox(camara3.calculateViewMatrix(), projection);
+			if (mainWindow.getcamtype() >= 2 && mainWindow.getcamtype() < 8) { //camara viendo juego
+				skybox_t.DrawSkybox(camara3.calculateViewMatrix(), projection);
 			}
-			if (mainWindow.getcamtype() == 3) { //camara editor
+			if (mainWindow.getcamtype() == 8) { //camara editor
 				skybox_t.DrawSkybox(camara4.calculateViewMatrix(), projection);
 			}
 		}
@@ -848,7 +875,6 @@ int main()
 		rotavatarY = mainWindow.getrotavatarY();
 		//CAMARAS	
 		if (mainWindow.getcamtype() == 0) { //vista tercera persona
-			dentrojuego = 0.0f; //no estás en un juego
 			// Offset detrás y arriba del personaje
 			glm::vec3 camOffset = glm::vec3(0.0f, 40.0f, 35.0f);
 			camara1.followObject(avatarPos, camOffset, 10.0f, deltaTime, rotavatar, rotavatarY);
@@ -861,7 +887,6 @@ int main()
 
 		}
 		else if (mainWindow.getcamtype() == 1) { //vista aerea
-			dentrojuego = 0.0f; //no estás en un juego
 			camara2.lookAtTarget(glm::vec3(0.0f, 550.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 			//Se inicia cámara
 			glm::mat4 view = camara2.calculateViewMatrix();
@@ -871,68 +896,51 @@ int main()
 			glUniform3f(uniformEyePosition, camara2.getCameraPosition().x, camara2.getCameraPosition().y, camara2.getCameraPosition().z);
 
 		}
-		else if (mainWindow.getcamtype() == 2) { //vista sobre juego
+		else if (mainWindow.getcamtype() != 1.0 && mainWindow.getcamtype() != 8.0) { //vista sobre juego
 			//PARA LA FUNCIÓN lookAtTarget el primer vector es la posición de la cámara y el segundo vector es la dirección a la que apunta
-
-			//CONDICIÓN JUEGO DADOS, para inicializar cámara
-			if (mainWindow.getposlat() > 70.0f && mainWindow.getposlat() < 110.0f
-				&& mainWindow.getposfron() > 460 && mainWindow.getposfron() < 485.0f) {
+			//CONDICIÓN JUEGO DADOS
+			if (mainWindow.getcamtype() >= 2.0f && mainWindow.getcamtype() < 3.0f) {
 				camara3.lookAtTarget(glm::vec3(-92.5f, 22.5f, -180.0f), glm::vec3(-100.0f, 0.0f, -200.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 1;
 			}
-			//CONDICION JUEGO HACHA, para inicializar cámara
-			else if (mainWindow.getposlat() > 126.0f && mainWindow.getposlat() < 175.0f
-				&& mainWindow.getposfron() > 325.0f && mainWindow.getposfron() < 380.0f) {
+			//CONDICION JUEGO HACHA
+			else if (mainWindow.getcamtype() >= 3.0f && mainWindow.getcamtype() < 4.0f) {
 				camara3.lookAtTarget(glm::vec3(-150.0f, 18.0f, -55.0f), glm::vec3(-200.0f, 18.0f, -80.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 2;
 			}
-			//CONDICION JUEGO JAULA DE DARDOS, para inicializar camara 
-			else if (mainWindow.getposlat() > 119.0f && mainWindow.getposlat() < 173.0f
-				&& mainWindow.getposfron() > 139.0f && mainWindow.getposfron() < 205.0f) {
+			//CONDICION JUEGO JAULA DE DARDOS
+			else if (mainWindow.getcamtype() >= 4.0f && mainWindow.getcamtype() < 5.0f) {
 				camara3.lookAtTarget(glm::vec3(-135.0f, 18.0f, 130.0f), glm::vec3(-200.0f, 18.0f, 160.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 3;
 			}
-			//CONDICION JUEGO JAULA DE BATEO, para inicializar camara 
-			else if (mainWindow.getposlat() > -89.0f && mainWindow.getposlat() < -27.0f
-				&& mainWindow.getposfron() > 472.0f && mainWindow.getposfron() < 527.0f) {
+			//CONDICION JUEGO JAULA DE BATEO
+			else if (mainWindow.getcamtype() >= 5.0f && mainWindow.getcamtype() < 6.0f) {
 				camara3.lookAtTarget(glm::vec3(30.0f, 18.0f, -190.0f), glm::vec3(200.0f, 18.0f, -190.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 4;
 			}
-			//CONDICION JUEGO TOPOS, para inicializar camara
-			else if (mainWindow.getposlat() > -156.0f && mainWindow.getposlat() < -136.0f
-				&& mainWindow.getposfron() > 313.0f && mainWindow.getposfron() < 360.0f) {
+			//CONDICION JUEGO TOPOS
+			else if (mainWindow.getcamtype() >= 6.0f && mainWindow.getcamtype() < 7.0f) {
 				camara3.lookAtTarget(glm::vec3(120.0f, 40.0f, -30.0f), glm::vec3(180.0f, 0.0f, -50.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 5;
 			}
-			//CONDICION JUEGO BOLOS, para inicializar camara
-			else if (mainWindow.getposlat() > -137.0f && mainWindow.getposlat() < -106.0f
-				&& mainWindow.getposfron() > 162.0f && mainWindow.getposfron() < 204.0f) {
+			//CONDICION JUEGO BOLOS
+			else if (mainWindow.getcamtype() >= 7.0f && mainWindow.getcamtype() < 8.0f) {
 				camara3.lookAtTarget(glm::vec3(95.0f, 35.0f, 100.0f), glm::vec3(150.0f, 5.0f, 130.0f));
-				dentrojuego = 1.0f;
 				juegoactivo = 6;
 			}
-			else {
-				//en caso de no estar cerca de ningún juego, se manda a una vista general del mapa
-				camara3.lookAtTarget(glm::vec3(0.0f, 35.0f, 350.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-			}
+			printf("\ncamtype, %f", mainWindow.getcamtype());
 			//Se inicia cámara
 			glm::mat4 view = camara3.calculateViewMatrix();
 			glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 			glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
 			glUniform3f(uniformEyePosition, camara3.getCameraPosition().x, camara3.getCameraPosition().y, camara3.getCameraPosition().z);
 		}
-		else if (mainWindow.getcamtype() == 3) { //vista editor
+		else if (mainWindow.getcamtype() == 8) { //vista editor
 			//para cámara editor se usa la cámara de siempre
 			camara4.keyControl(mainWindow.getsKeys(), deltaTime);
 			camara4.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 			camara4.keyControl(mainWindow.getsKeys(), deltaTime);
 			camara4.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-			dentrojuego = 0.0f; //no estás en un juego
 			glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 			glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camara4.calculateViewMatrix()));
 			glUniform3f(uniformEyePosition, camara4.getCameraPosition().x, camara4.getCameraPosition().y, camara4.getCameraPosition().z);
@@ -1053,7 +1061,7 @@ int main()
 		}
 
 		//ANIMACION MONEDA AÑADIR ACTIVADOR CON TECLA
-		if (dentrojuego == 1.0f) {
+		if (mainWindow.getdentrojuego() == 1.0f) {
 			if (monedamovx <= 20.0F) {
 				monedamovx += 0.02f * deltaTime * 8.0f;
 				monedamovy -= 0.006f * deltaTime * 8.0f;
@@ -1653,6 +1661,81 @@ int main()
 		piso_piedras.RenderModel();
 
 
+		//RUEDA DE LA FORTUNA
+		float tiempo = glfwGetTime();
+		float angulo = tiempo * glm::radians(30.0f);  // 30 grados por segundo
+		// BASE
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(250.0f, 56.0f, -20.0f));
+		model = glm::scale(model, glm::vec3(4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		base.RenderModel();
+		// Centro de la rueda
+		glm::mat4 centroRueda = glm::translate(model, glm::vec3(0.0f, 4.5f, 0.0f));
+		// RUEDA
+		glm::mat4 modelRueda = glm::rotate(centroRueda, angulo, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(modelRueda));
+		rueda.RenderModel();
+
+		// Posiciones fijas desde el centro de la rueda
+		std::vector<glm::vec3> posicionesCanastas = {
+			glm::vec3(0.0f, 2.3f, 11.3f),
+			glm::vec3(0.0f, -7.3f, 8.2f),
+			glm::vec3(0.0f, -11.3f, 0.0f),
+			glm::vec3(0.0f, -7.3f, -8.2f),
+			glm::vec3(0.0f, 2.3f, -11.3f),
+			glm::vec3(0.0f, 10.3f, -4.3f),
+			glm::vec3(0.0f, 10.3f, 4.4f)
+		};
+
+		// Render de cada canasta, partiendo SIEMPRE del centro de la rueda girado
+		for (const auto& offset : posicionesCanastas) {
+			glm::mat4 modelCanasta = glm::translate(modelRueda, offset);                     // posición girada
+			modelCanasta = glm::rotate(modelCanasta, -angulo, glm::vec3(1.0f, 0.0f, 0.0f));  // contrarrotación para colgar
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(modelCanasta));
+			canastas.RenderModel();
+		}
+
+
+		//CARRUSEL
+		float anguloY = tiempo * glm::radians(30.0f);  // giro del carrusel
+		float subida = sin(tiempo * 2.0f) * 1.0f;       // subida y bajada senoidal de ±1 unidad
+		//base
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-220.0f, 0.0f, -220.0f));
+		model = glm::scale(model, glm::vec3(4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		carrusel.RenderModel();
+		//centro que gira
+		glm::mat4 centroCarrusel = glm::rotate(model, -anguloY, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(centroCarrusel));
+		centro.RenderModel();
+		//caballos
+		std::vector<glm::vec3> posicionesCaballos = {
+			glm::vec3(2.0f, 4.0f, 2.0f),
+			glm::vec3(0.0f, 4.0f, 2.0f),
+			glm::vec3(0.0f, 4.0f, -2.0f),
+			glm::vec3(-2.0f, 4.0f, 0.0f)
+		};
+		//animacion de los caballos
+		std::vector<float> desfases = { 0.0f, 1.0f, 2.0f, 3.0f };
+
+		for (size_t i = 0; i < posicionesCaballos.size(); ++i) {
+			glm::vec3 pos = posicionesCaballos[i];
+			float subidaCaballo = sin(tiempo * 2.0f + desfases[i]) * 1.0f;
+
+			glm::mat4 modelCaballo = glm::translate(centroCarrusel, pos + glm::vec3(0.0f, subidaCaballo, 0.0f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(modelCaballo));
+
+			switch (i) {
+			case 0: caballo.RenderModel(); break;
+			case 1: caballo2.RenderModel(); break;
+			case 2: caballo3.RenderModel(); break;
+			case 3: caballo4.RenderModel(); break;
+			}
+		}
+
+
 		// ------------------------------------------------------------ JUEGOS --------------------------------------------------------
 		//JUEGO DADOS
 		model = glm::mat4(1.0);
@@ -1893,7 +1976,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -1951,7 +2034,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2029,7 +2112,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2235,7 +2318,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2253,7 +2336,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2271,7 +2354,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2289,7 +2372,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2307,7 +2390,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2325,7 +2408,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (dentrojuego == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
