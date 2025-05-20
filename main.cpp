@@ -3,7 +3,7 @@
 PROYECTO LAB CGEIHC.
 FECHA DE ENTREGA 10/05/25
 
-Aguilar Perez José Ramón
+Aguilar Perez JosÃ© RamÃ³n
 Dominguez Chavez Jesus Abner
 Sanchez Calvillo Saida Mayela
 Sanchez Villalpando Johan
@@ -42,7 +42,7 @@ POKEMON
 #include"Model.h"
 #include "Skybox.h"
 
-//para iluminación
+//para iluminaciÃ³n
 #include "CommonValues.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
@@ -52,14 +52,14 @@ const float toRadians = 3.14159265f / 180.0f;
 
 //VARIABLES PARA CICLO DIA/NOCHE
 float solAng = 0.0f; //angulo del soll   
-const float VelSol = 0.25f;// Velocidad de avance del día en grados por segundo
-glm::vec3 DirIni = glm::vec3(0.0f, -1.0f, 0.0f); // Dirección inicial del sol, mediodia
+const float VelSol = 0.25f;// Velocidad de avance del dÃ­a en grados por segundo
+glm::vec3 DirIni = glm::vec3(0.0f, -1.0f, 0.0f); // DirecciÃ³n inicial del sol, mediodia
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
-/*DECLARACIÓN DE CÁMARAS :
+/*DECLARACIÃ“N DE CÃMARAS :
 camara1: la camara que sigue al avatar
 camara2: Camara aerea muestra todo el mapa
 camara3: camara que se posiciona para ver juegos
@@ -69,9 +69,9 @@ Camera camara1, camara2, camara3, camara4;
 
 Texture pisoTexture;
 
-///----------AÑADIR MODELOS EN ESTA SECCIÓN---------------------
+///----------AÃ‘ADIR MODELOS EN ESTA SECCIÃ“N---------------------
 
-//exclusivo añadir modelos
+//exclusivo aÃ±adir modelos
 
 //MARIO BROS
 Model mario_torso;
@@ -190,7 +190,7 @@ Model Perry_PiernaD;
 Model Perry_PiernaI;
 Model Perry_Sombrero;
 
-// SKYBOX PARA DÍA (SKYBOX), NOCHE(SKYBOX_N) Y TARDE (SKYBOX_T)
+// SKYBOX PARA DÃA (SKYBOX), NOCHE(SKYBOX_N) Y TARDE (SKYBOX_T)
 Skybox skybox, skybox_n, skybox_t;
 
 //materiales
@@ -231,7 +231,7 @@ static const char* fShader = "shaders/shader_light.frag";
 
 
 
-//cálculo del promedio de las normales para sombreado de Phong
+//cÃ¡lculo del promedio de las normales para sombreado de Phong
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
 {
@@ -261,7 +261,7 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 }
 
 
-//CREACIÓN DE OBJETOS, LOS ACTUALES SIRVEN SOLO
+//CREACIÃ“N DE OBJETOS, LOS ACTUALES SIRVEN SOLO
 void CreateObjects()
 {
 	unsigned int indices[] = {
@@ -313,7 +313,7 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
-	//inicialización de cámaras
+	//inicializaciÃ³n de cÃ¡maras
 	camara1 = Camera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 0.5f, 0.5f);
 	camara2 = Camera(glm::vec3(0.0f, 100.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), -90.0f, -89.9f, 0.5f, 0.5f);
 	camara3 = Camera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 0.5f, 0.5f);
@@ -394,7 +394,7 @@ int main()
 	piso_piedras.LoadModel("Models/piso_piedras.obj");
 	rueda = Model();
 	rueda.LoadModel("Models/Rueda/rueda.obj");
-	canastas= Model();
+	canastas = Model();
 	canastas.LoadModel("Models/Rueda/Canastas.obj");
 	base = Model();
 	base.LoadModel("Models/Rueda/base.obj");
@@ -558,19 +558,19 @@ int main()
 	skybox_t = Skybox(skyboxFaces_t);
 	skybox_n = Skybox(skyboxFaces_n);
 
-	//CREACIÓN DE MATERIALES, AÑADIR MÁS PARA LA FERIA
+	//CREACIÃ“N DE MATERIALES, AÃ‘ADIR MÃS PARA LA FERIA
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 	Material_metalico = Material(0.9f, 256); //muy brillante
 	Material_tela = Material(0.05f, 2);  // Tela
 
-	//luz direccional, sólo 1 y siempre debe de existir
+	//luz direccional, sÃ³lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.4f, 0.4f,
 		0.0f, -1.0f, 0.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
-	//Declaración de primer luz puntual
+	//DeclaraciÃ³n de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
 		0.4f, 0.4f,
 		-168.0f, 30.0f, 168.0f,
@@ -588,18 +588,18 @@ int main()
 	spotLightCount++;
 
 	//----------------------------------------------------- LUCES DE NOCHE ------------------------------------------
-	
+
 	unsigned int lucesFarosCount = 0;
 
 	lucesFaros[0] = SpotLight(1.0f, 0.2f, 1.0f,       // Magenta fuerte
 		1.5f, 2.5f,                                   // Intensidad: visible pero no deslumbrante
-		49.0f, 60.0f, 275.0f,                         // Posición
-		0.0f, -0.5f, -1.0f,                           // Dirección inclinada hacia el suelo
-		0.01f, 0.005f, 0.00005f,                     // Atenuación suave: larga distancia
+		49.0f, 60.0f, 275.0f,                         // PosiciÃ³n
+		0.0f, -0.5f, -1.0f,                           // DirecciÃ³n inclinada hacia el suelo
+		0.01f, 0.005f, 0.00005f,                     // AtenuaciÃ³n suave: larga distancia
 		35.0f);
 	lucesFarosCount++;
 
-	lucesFaros[1] = SpotLight(0.2f, 0.6f, 1.0f,       // Azul eléctrico
+	lucesFaros[1] = SpotLight(0.2f, 0.6f, 1.0f,       // Azul elÃ©ctrico
 		1.5f, 2.5f,
 		-39.0f, 60.0f, 275.0f,
 		0.0f, -0.5f, -1.0f,
@@ -617,8 +617,8 @@ int main()
 
 	lucesFaros[3] = SpotLight(0.0f, 1.0f, 0.4f,     // Verde feria brillante
 		0.5f, 0.7f,
-		0.0f, 60.0f, 0.0f,                           // Posición temporal (se actualiza y se queda en la ultima posicion)
-		0.0f, -1.0f, 0.0f,                           
+		0.0f, 60.0f, 0.0f,                           // PosiciÃ³n temporal (se actualiza y se queda en la ultima posicion)
+		0.0f, -1.0f, 0.0f,
 		0.01f, 0.005f, 0.0005f,
 		50.0f);
 	lucesFarosCount++;
@@ -655,20 +655,20 @@ int main()
 	lucesDados[0] = SpotLight(
 		1.0f, 0.8f, 0.6f,                // Color calido
 		1.5f, 2.0f,
-		-100.0f, 30.0f, -200.0f,          // Posición 
-		0.0f, -1.0f, 0.0f,             // Dirección 
-		0.3f, 0.02f, 0.005f,             // Atenuación
-		52.0f                           // Ángulo 
+		-100.0f, 30.0f, -200.0f,          // PosiciÃ³n 
+		0.0f, -1.0f, 0.0f,             // DirecciÃ³n 
+		0.3f, 0.02f, 0.005f,             // AtenuaciÃ³n
+		52.0f                           // Ãngulo 
 	);
 	lucesDadosCount++;
 
 	//---------------------------------------------------LUCES PARA LAS HACHAS ---------------------------------------------
 	unsigned int lucesHachaCount = 0;
 
-	lucesHacha[0] = PointLight(1.0f, 0.8f, 0.6f,        // Color cálido
+	lucesHacha[0] = PointLight(1.0f, 0.8f, 0.6f,        // Color cÃ¡lido
 		0.6f, 0.4f,
 		-180.0f, 30.0f, -78.0f,
-		0.2f, 0.02f, 0.005f);     //Atenuación
+		0.2f, 0.02f, 0.005f);     //AtenuaciÃ³n
 	lucesHachaCount++;
 
 	lucesHacha[1] = PointLight(1.0f, 0.8f, 0.6f,
@@ -686,10 +686,10 @@ int main()
 	//------------------------------------------------ LUCES PARA LOS GLOBOS --------------------------------------------------
 	unsigned int lucesGlobosCount = 0;
 
-	lucesGlobos[0] = PointLight(1.0f, 0.8f, 0.6f,       // Color cálido 
+	lucesGlobos[0] = PointLight(1.0f, 0.8f, 0.6f,       // Color cÃ¡lido 
 		1.5f, 1.0f,             // Intensidad 
-		-175.0f, 15.0f, 180.0f, // Posición
-		0.3f, 0.05f, 0.01f);    // Atenuación (mayor alcance)
+		-175.0f, 15.0f, 180.0f, // PosiciÃ³n
+		0.3f, 0.05f, 0.01f);    // AtenuaciÃ³n (mayor alcance)
 	lucesGlobosCount++;
 
 	lucesGlobos[1] = PointLight(1.0f, 0.8f, 0.6f,
@@ -710,10 +710,10 @@ int main()
 	unsigned int lucesSpotJaulaCount = 0;
 
 	// Luz en esquina izquierda superior
-	lucesJaula[0] = PointLight(1.0f, 0.9f, 0.7f,   // Color cálido
+	lucesJaula[0] = PointLight(1.0f, 0.9f, 0.7f,   // Color cÃ¡lido
 		1.5f, 1.0f,
-		85.0f, 25.0f, -210.0f,                    // Posición
-		0.3f, 0.05f, 0.01f);                      // Atenuación
+		85.0f, 25.0f, -210.0f,                    // PosiciÃ³n
+		0.3f, 0.05f, 0.01f);                      // AtenuaciÃ³n
 	lucesJaulaCount++;
 
 	// Luz en esquina derecha superior
@@ -724,12 +724,12 @@ int main()
 	lucesJaulaCount++;
 
 	// Spotlight central
-	lucesSpotJaula[0] = SpotLight(1.0f, 1.0f, 0.9f,                         // Color cálido blanco
+	lucesSpotJaula[0] = SpotLight(1.0f, 1.0f, 0.9f,                         // Color cÃ¡lido blanco
 		0.7f, 0.5f,
-		115.0f, 30.0f, -175.0f,                    // Posición arriba de la maquina
+		115.0f, 30.0f, -175.0f,                    // PosiciÃ³n arriba de la maquina
 		0.0f, -1.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
-		15.0f);                                   // Ángulo del cono
+		15.0f);                                   // Ãngulo del cono
 	lucesSpotJaulaCount++;
 
 
@@ -737,12 +737,12 @@ int main()
 
 	unsigned int lucesToposCount = 0;
 
-	lucesTopos[0] = SpotLight(1.0f, 0.9f, 0.6f,       // Color cálido
+	lucesTopos[0] = SpotLight(1.0f, 0.9f, 0.6f,       // Color cÃ¡lido
 		1.5f, 2.0f,
-		186.0f, 40.0f, -70.0f,                        // Posición en lo alto de la cabina
-		0.0f, -1.0f, 0.0f,                           // Dirección hacia abajo
+		186.0f, 40.0f, -70.0f,                        // PosiciÃ³n en lo alto de la cabina
+		0.0f, -1.0f, 0.0f,                           // DirecciÃ³n hacia abajo
 		0.3f, 0.02f, 0.009f,
-		70.0f);                                       // Ángulo del cono
+		70.0f);                                       // Ãngulo del cono
 	lucesToposCount++;
 
 
@@ -752,10 +752,10 @@ int main()
 
 	lucesBolos[0] = SpotLight(1.0f, 1.0f, 1.0f,       // Color blanco
 		2.0f, 2.5f,                                   // Intensidad
-		170.0f, 30.0f, 155.0f,                        // Posición 
-		0.0f, -1.0f, 0.0f,                            // Dirección hacia abajo
+		170.0f, 30.0f, 155.0f,                        // PosiciÃ³n 
+		0.0f, -1.0f, 0.0f,                            // DirecciÃ³n hacia abajo
 		0.3f, 0.02f, 0.01f,
-		35.0f);                                       // Ángulo 
+		35.0f);                                       // Ãngulo 
 	lucesBolosCount++;
 
 	lucesBolos[1] = SpotLight(1.0f, 1.0f, 1.0f,
@@ -779,12 +779,12 @@ int main()
 		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset = 0;
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
-	//algunas variables para avatar y cámara
+	//algunas variables para avatar y cÃ¡mara
 	glm::mat4 view;
-	glm::vec3 avatarPos; //posición del avatar
-	float rotavatar, rotavatarY;//rotación del avatar
+	glm::vec3 avatarPos; //posiciÃ³n del avatar
+	float rotavatar, rotavatarY;//rotaciÃ³n del avatar
 	//animaciones
-	int juegoactivo = 0; //VARIABLE QUE NOS DICE EN QUÉ JUEGO HACER ANIMACIÓN.
+	int juegoactivo = 0; //VARIABLE QUE NOS DICE EN QUÃ‰ JUEGO HACER ANIMACIÃ“N.
 	float contabasico = 0.0f, monedamovx = 0.0f, monedamovy = 0.0f, animationTime = 0.0f;
 	float dado1x = 0.0f, dado1y = 0.0f, dado1z = 0.0f, vasox = 0.0f, vasoy = 0.0f, vasoz = 0.0f, dado2x = 0.0f, dado2y = 0.0f, dado2z = 0.0f, rotavaso, rotadado1, rotadado2;
 	float axemovX = 0.0f, axemovZ = 0.0f, axerotX = 0.0f, axerotZ = 0.0f;
@@ -793,6 +793,7 @@ int main()
 	float muevetopo = 0.0f, muevemazo = 0.0f, toposOffset = 0.1f, mazoOffset = 1.0f;
 	float muevepino = 0.0f, muevevoltorb = 0.0f, voltorbOffset = 0.3f, pinoOffset = 2.0f;
 	bool globosPonchados = false;
+	float brazoPhineas = -100.0f, muevebrazo = 0.0f, brazoOffset = 0.3f;
 
 	//sf::Music music;
 	////Reproduccion de musica fuera del ciclo
@@ -818,7 +819,7 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//ACA SE REALIZA EL CAMBIO DE SKYBOX DEPENDIENDO LA LUZ	y la cámara
+		//ACA SE REALIZA EL CAMBIO DE SKYBOX DEPENDIENDO LA LUZ	y la cÃ¡mara
 		if (solAng >= 80.0f && solAng < 250.0f) { //noche
 			if (mainWindow.getcamtype() == 0) { //camara 3ra persona
 				skybox_n.DrawSkybox(camara1.calculateViewMatrix(), projection);
@@ -847,7 +848,7 @@ int main()
 				skybox_t.DrawSkybox(camara4.calculateViewMatrix(), projection);
 			}
 		}
-		else if (solAng >= 300.0f && solAng <= 360) { //Día completo
+		else if (solAng >= 300.0f && solAng <= 360) { //DÃ­a completo
 			if (mainWindow.getcamtype() == 0) { //camara 3ra persona
 				skybox.DrawSkybox(camara1.calculateViewMatrix(), projection);
 			}
@@ -861,7 +862,7 @@ int main()
 				skybox.DrawSkybox(camara4.calculateViewMatrix(), projection);
 			}
 		}
-		else if (solAng >= 0.0f && solAng < 30.0f) { //Día completo
+		else if (solAng >= 0.0f && solAng < 30.0f) { //DÃ­a completo
 			if (mainWindow.getcamtype() == 0) { //camara 3ra persona
 				skybox.DrawSkybox(camara1.calculateViewMatrix(), projection);
 			}
@@ -898,21 +899,21 @@ int main()
 		uniformColor = shaderList[0].getColorLocation();
 		uniformTextureOffset = shaderList[0].getOffsetLocation();
 
-		//información en el shader de intensidad especular y brillo
+		//informaciÃ³n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
-		//posición del avatar
+		//posiciÃ³n del avatar
 		avatarPos = glm::vec3(
 			0.0f - mainWindow.getposlat(),
 			3.0f,
 			295.0f - mainWindow.getposfron());
-		//rotación del avatar
+		//rotaciÃ³n del avatar
 		rotavatar = mainWindow.getrotavatar();
 		rotavatarY = mainWindow.getrotavatarY();
 		//CAMARAS	
 		if (mainWindow.getcamtype() == 0) { //vista tercera persona
-			// Offset detrás y arriba del personaje
+			// Offset detrÃ¡s y arriba del personaje
 			glm::vec3 camOffset = glm::vec3(0.0f, 40.0f, 35.0f);
 			camara1.followObject(avatarPos, camOffset, 10.0f, deltaTime, rotavatar, rotavatarY);
 			// Calcular view matrix
@@ -925,7 +926,7 @@ int main()
 		}
 		else if (mainWindow.getcamtype() == 1) { //vista aerea
 			camara2.lookAtTarget(glm::vec3(0.0f, 550.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-			//Se inicia cámara
+			//Se inicia cÃ¡mara
 			glm::mat4 view = camara2.calculateViewMatrix();
 			//se mandan al shader
 			glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
@@ -934,8 +935,8 @@ int main()
 
 		}
 		else if (mainWindow.getcamtype() != 1.0 && mainWindow.getcamtype() != 8.0) { //vista sobre juego
-			//PARA LA FUNCIÓN lookAtTarget el primer vector es la posición de la cámara y el segundo vector es la dirección a la que apunta
-			//CONDICIÓN JUEGO DADOS
+			//PARA LA FUNCIÃ“N lookAtTarget el primer vector es la posiciÃ³n de la cÃ¡mara y el segundo vector es la direcciÃ³n a la que apunta
+			//CONDICIÃ“N JUEGO DADOS
 			if (mainWindow.getcamtype() >= 2.0f && mainWindow.getcamtype() < 3.0f) {
 				camara3.lookAtTarget(glm::vec3(-92.5f, 22.5f, -180.0f), glm::vec3(-100.0f, 0.0f, -200.0f));
 				juegoactivo = 1;
@@ -966,14 +967,14 @@ int main()
 				juegoactivo = 6;
 			}
 			printf("\ncamtype, %f", mainWindow.getcamtype());
-			//Se inicia cámara
+			//Se inicia cÃ¡mara
 			glm::mat4 view = camara3.calculateViewMatrix();
 			glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 			glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
 			glUniform3f(uniformEyePosition, camara3.getCameraPosition().x, camara3.getCameraPosition().y, camara3.getCameraPosition().z);
 		}
 		else if (mainWindow.getcamtype() == 8) { //vista editor
-			//para cámara editor se usa la cámara de siempre
+			//para cÃ¡mara editor se usa la cÃ¡mara de siempre
 			camara4.keyControl(mainWindow.getsKeys(), deltaTime);
 			camara4.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 			camara4.keyControl(mainWindow.getsKeys(), deltaTime);
@@ -1027,25 +1028,25 @@ int main()
 		// ----------- LUCES DE NOCHE ---------------------------
 		//Movimiento senoidal de los faros
 		float tiempo = glfwGetTime();
-		float anguloFaro1 = std::sin(tiempo * 1.5f) * glm::radians(20.0f); // Oscilación en eje X
+		float anguloFaro1 = std::sin(tiempo * 1.5f) * glm::radians(20.0f); // OscilaciÃ³n en eje X
 		float anguloFaro2 = std::cos(tiempo * 1.5f) * glm::radians(20.0f);
 
 		// Posiciones de los faros 
 		glm::vec3 posFaro1(49.0f, 60.0f, 275.0f);
 		glm::vec3 posFaro2(-39.0f, 60.0f, 275.0f);
 
-		//Dirección base
+		//DirecciÃ³n base
 		glm::vec3 direccionBase = glm::normalize(glm::vec3(0.0f, -0.3f, -1.0f));
 
-		//Matrices de rotación sobre eje X (para que inclinen hacia los lados)
+		//Matrices de rotaciÃ³n sobre eje X (para que inclinen hacia los lados)
 		glm::mat4 rotX1 = glm::rotate(glm::mat4(1.0f), anguloFaro1, glm::vec3(1.0f, 0.0f, 0.0f));
 		glm::mat4 rotX2 = glm::rotate(glm::mat4(1.0f), anguloFaro2, glm::vec3(1.0f, 0.0f, 0.0f));
 
-		// Direcciones resultantes aplicando la rotación a la dirección base
+		// Direcciones resultantes aplicando la rotaciÃ³n a la direcciÃ³n base
 		glm::vec3 direccionFaro1 = glm::vec3(rotX1 * glm::vec4(direccionBase, 0.0f));
 		glm::vec3 direccionFaro2 = glm::vec3(rotX2 * glm::vec4(direccionBase, 0.0f));
 
-		//Actualización de luces Spotlight
+		//ActualizaciÃ³n de luces Spotlight
 		lucesFaros[0].SetFlash(posFaro1, glm::normalize(direccionFaro1));
 		lucesFaros[1].SetFlash(posFaro2, glm::normalize(direccionFaro2));
 
@@ -1053,7 +1054,7 @@ int main()
 		if ((camType == 0 || camType == 1 || camType == 8) && esNoche)
 		{
 			glm::vec3 posicionesJuegos[] = {
-				glm::vec3(0.0f),                      // índice 0 (no se usa)
+				glm::vec3(0.0f),                      // Ã­ndice 0 (no se usa)
 				glm::vec3(165.0f, 60.0f, 145.0f),      // juego bolos
 				glm::vec3(165.0f, 60.0f, -40.0f),     // juego topos
 				glm::vec3(90.0f, 60.0f, -190.0f),      // juego bateo
@@ -1067,19 +1068,19 @@ int main()
 			lucesFaros[3].SetFlash(nuevaPos, direccion);
 		}
 
-		//Activación de luces generales de la feria
+		//ActivaciÃ³n de luces generales de la feria
 		if ((camType == 0 || camType == 1 || camType == 8) && esNoche) {
 			shaderList[0].SetSpotLights(lucesFaros, lucesFarosCount);
 		}
 
-		//Función para ciclo dia/noche usando solAng
+		//FunciÃ³n para ciclo dia/noche usando solAng
 		solAng += VelSol * deltaTime; //se aumenta el angulo del sol con forme al deltatime y la velocidad del sol
-		if (solAng > 360.0f) //al llegar a 360 se reinicia el día
+		if (solAng > 360.0f) //al llegar a 360 se reinicia el dÃ­a
 			solAng -= 360.0f;
 
-		glm::vec3 baseDirection = glm::vec3(0.0f, -1.0f, 0.0f); //dirección inicial
-		glm::mat4 rotadia = glm::rotate(glm::mat4(1.0f), glm::radians(solAng), glm::vec3(1.0f, 0.0f, 0.0f)); //rotación de la dirección
-		glm::vec3 newDirection = glm::vec3(rotadia * glm::vec4(baseDirection, 0.0f)); //se rota la dirección base 
+		glm::vec3 baseDirection = glm::vec3(0.0f, -1.0f, 0.0f); //direcciÃ³n inicial
+		glm::mat4 rotadia = glm::rotate(glm::mat4(1.0f), glm::radians(solAng), glm::vec3(1.0f, 0.0f, 0.0f)); //rotaciÃ³n de la direcciÃ³n
+		glm::vec3 newDirection = glm::vec3(rotadia * glm::vec4(baseDirection, 0.0f)); //se rota la direcciÃ³n base 
 		mainLight.direction = glm::normalize(newDirection); // se normaliza para ajustar
 
 		//inicia modelo de suelo
@@ -1101,22 +1102,22 @@ int main()
 
 		meshList[0]->RenderMesh();
 
-		//ANIMACIÓN JUEGO DADOS
+		//ANIMACIÃ“N JUEGO DADOS
 		if (juegoactivo == 1 && monedamovy < -7.0f) { //se verifica que estemos en ese juego
 			animationTime += deltaTime * 0.01;
-			// Fases de la animación
+			// Fases de la animaciÃ³n
 			if (animationTime < 2.0f) {
 				vasoy = (animationTime / 2.0f) * 3.0f;  // Subida de 3 unidades
 			}
 			else if (animationTime < 4.0f) {
 				// Fase 2: El vaso se menea (oscila)
 				vasoy = 3.0f;
-				rotavaso = sin(animationTime * 10.0) * 20.0f;  // Oscilación
+				rotavaso = sin(animationTime * 10.0) * 20.0f;  // OscilaciÃ³n
 			}
 			else if (animationTime < 7.0f) {
 				// Fase 3: Lanza los dados
 				vasoy = 3.0f; //sube vaso
-				rotavaso = 110.0f;  // Inclinación del vaso hacia adelante
+				rotavaso = 110.0f;  // InclinaciÃ³n del vaso hacia adelante
 				vasox = 1.0f;
 				float t = animationTime - 4.0f;
 				t *= 2.0f;
@@ -1126,10 +1127,10 @@ int main()
 				//movimiento en z limitada a -5.0
 				dado1z = glm::max(-1.5f * t * t - 0.5f, -10.0f);
 				dado2z = glm::max(-1.5f * t * t - 0.5f, -9.0f);
-				//separación leve en x para que no caigan en el mismo punto
+				//separaciÃ³n leve en x para que no caigan en el mismo punto
 				dado1x = 0.3f;
 				dado2x = -0.3f;
-				// Rotación sencilla mientras caen
+				// RotaciÃ³n sencilla mientras caen
 				if (t < 3.0f) {
 					rotadado1 = t * 75.0;
 					rotadado2 = t * 75.0f;
@@ -1144,7 +1145,7 @@ int main()
 
 		}
 
-		//ANIMACION MONEDA AÑADIR ACTIVADOR CON TECLA
+		//ANIMACION MONEDA AÃ‘ADIR ACTIVADOR CON TECLA
 		if (mainWindow.getdentrojuego() == 1.0f) {
 			if (monedamovx <= 20.0F) {
 				monedamovx += 0.02f * deltaTime * 8.0f;
@@ -1171,7 +1172,7 @@ int main()
 		}
 		else { axemovX = 0.0f, axemovZ = 0.0f, axerotX = 0.0f; }
 
-		// ANIMACIÓN DE DARDOS
+		// ANIMACIÃ“N DE DARDOS
 		if (juegoactivo == 3 && monedamovy < -7.0f) {
 			if (dardomovX >= -43.0f) {
 				dardomovX -= 1.0f * deltaTime * 0.5f;
@@ -1268,42 +1269,60 @@ int main()
 			globo1.RenderModel();
 		}
 
+		//Brazos de Phineas
+		if (juegoactivo != 0 && monedamovy < -7.0f) {
+			brazoPhineas = 0.0f;
+		}
+		else {
+			brazoPhineas = -100.0f;
+		}
+
+		//ANIMACION BRAZOS
+		if (juegoactivo != 0 && monedamovy < -7.0f) {
+			muevebrazo += (brazoOffset * deltaTime) * 6.0f;
+			if (muevebrazo > 50.0f) {
+				muevebrazo = 50.0f;
+			}
+		}
+		else { muevebrazo = 0.0f, brazoOffset = 0.3f; }
+
+
 		// ---------------------------------------------------------- AVATAR -------------------------------------------------------------------
 		//PHINEAS 
 		//cuerpo
 		model = glm::mat4(1.0);
-		//Posición se ajusta para el avatar
+		//PosiciÃ³n se ajusta para el avatar
 		model = glm::translate(model, glm::vec3(0.0f - mainWindow.getposlat(), 5.5f, 295.0f - mainWindow.getposfron())); //mov del avatar (cambiar a phineas)
-		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //ROTACIÖN OBLIGATORIA EN AVATAR
-		model = glm::rotate(model, rotavatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //rotación del avatar (cambiar a phineas)
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //ROTACIÃ–N OBLIGATORIA EN AVATAR
+		model = glm::rotate(model, rotavatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //rotaciÃ³n del avatar (cambiar a phineas)
 		model = glm::scale(model, glm::vec3(11.0f, 11.0f, 11.0f));
-		modelaux = model; //se guarda traslación
+		modelaux = model; //se guarda traslaciÃ³n
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		phineas_cuerpo.RenderModel();
 		//brazo der
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-0.05f, 0.11f, 0.0f));
 		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, mainWindow.getcaminarD(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotación senoidal en X
+		model = glm::rotate(model, mainWindow.getcaminarD(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotaciÃ³n senoidal en X
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		phineas_brazoD.RenderModel();
 		//brazo izq
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.05f, 0.11f, 0.0f));
 		model = glm::rotate(model, -30 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, mainWindow.getcaminarI(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotación senoidal en X
+		model = glm::rotate(model, mainWindow.getcaminarI(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotaciÃ³n senoidal en X
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		phineas_brazoI.RenderModel();
 		//pierna der
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-0.08f, -0.25f, 0.0f));
-		model = glm::rotate(model, mainWindow.getcaminarD(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotación senoidal en X
+		model = glm::rotate(model, mainWindow.getcaminarD(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotaciÃ³n senoidal en X
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		phineas_piernaD.RenderModel();
 		//pierna izq
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.08f, -0.25f, -0.02f));
-		model = glm::rotate(model, mainWindow.getcaminarI(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotación senoidal en X
+		model = glm::rotate(model, mainWindow.getcaminarI(), glm::vec3(1.0f, 0.0f, 0.0f));     // rotaciÃ³n senoidal en X
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		phineas_piernaI.RenderModel();
 
@@ -1315,7 +1334,7 @@ int main()
 		model = glm::translate(model, glm::vec3(-75.0f, 10.5f - sin(contabasico * 0.1f) * 6, -200.0f));
 		model = glm::rotate(model, 20 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-		modelaux = model; //se guarda traslación
+		modelaux = model; //se guarda traslaciÃ³n
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		mario_torso.RenderModel();
 		//cabeza
@@ -1373,7 +1392,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		lucario.RenderModel();
 		//brazo derecho
-		float rotabrazo = sin(now * 3.0f) * glm::radians(-20.0f); // rotación senoidal entre -45° y 45°
+		float rotabrazo = sin(now * 3.0f) * glm::radians(-20.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â°
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-1.3f, 3.0f, 0.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 1.0f));
@@ -1745,7 +1764,7 @@ int main()
 		// FARO 2
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(-38.0f, 60.0f, 272.0f));
-		model = glm::rotate(model, anguloFaro2, glm::vec3(1.0f, 0.0f, 0.0f));  // también en eje X
+		model = glm::rotate(model, anguloFaro2, glm::vec3(1.0f, 0.0f, 0.0f));  // tambiÃ©n en eje X
 		model = glm::scale(model, glm::vec3(2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		faro.RenderModel();
@@ -1787,13 +1806,13 @@ int main()
 		};
 
 		// ---------------- CANASTA 1 PARA LUZ ----------------
-		glm::mat4 modelCanasta1 = glm::translate(modelRueda, posicionesCanastas[0]);       // Posición en la rueda girada
-		modelCanasta1 = glm::rotate(modelCanasta1, -angulo, glm::vec3(1.0f, 0.0f, 0.0f));  // Contrarrotación para que cuelgue
+		glm::mat4 modelCanasta1 = glm::translate(modelRueda, posicionesCanastas[0]);       // PosiciÃ³n en la rueda girada
+		modelCanasta1 = glm::rotate(modelCanasta1, -angulo, glm::vec3(1.0f, 0.0f, 0.0f));  // ContrarrotaciÃ³n para que cuelgue
 
-		// Posición exacta de la canasta 1
+		// PosiciÃ³n exacta de la canasta 1
 		glm::vec3 posCanasta1 = glm::vec3(modelCanasta1[3]);
 
-		// Dirección fija hacia -X
+		// DirecciÃ³n fija hacia -X
 		glm::vec3 direccionCanasta1 = glm::vec3(-1.0f, 0.0f, 0.0f);
 
 		// Actualizar la luz amarilla
@@ -1801,8 +1820,8 @@ int main()
 
 		// Render de cada canasta, partiendo SIEMPRE del centro de la rueda girado
 		for (const auto& offset : posicionesCanastas) {
-			glm::mat4 modelCanasta = glm::translate(modelRueda, offset);                     // posición girada
-			modelCanasta = glm::rotate(modelCanasta, -angulo, glm::vec3(1.0f, 0.0f, 0.0f));  // contrarrotación para colgar
+			glm::mat4 modelCanasta = glm::translate(modelRueda, offset);                     // posiciÃ³n girada
+			modelCanasta = glm::rotate(modelCanasta, -angulo, glm::vec3(1.0f, 0.0f, 0.0f));  // contrarrotaciÃ³n para colgar
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(modelCanasta));
 			canastas.RenderModel();
 		}
@@ -1810,7 +1829,7 @@ int main()
 
 		//CARRUSEL
 		float anguloY = tiempo * glm::radians(30.0f);  // giro del carrusel
-		float subida = sin(tiempo * 2.0f) * 1.0f;       // subida y bajada senoidal de ±1 unidad
+		float subida = sin(tiempo * 2.0f) * 1.0f;       // subida y bajada senoidal de Â±1 unidad
 		//base
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-220.0f, 0.0f, -220.0f));
@@ -1848,7 +1867,7 @@ int main()
 
 
 		// ------------------------------------------------------------ JUEGOS --------------------------------------------------------
-		//JUEGO DADOS
+//JUEGO DADOS
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-100.0f, 2.85f, -200.0f));
 		modelaux = model;
@@ -1858,6 +1877,7 @@ int main()
 		dados_mesa.RenderModel();
 		//vaso
 		model = glm::translate(model, glm::vec3(3.0f + vasox, 5.0f + vasoy, 3.0f + vasoz));
+		modelaux2 = model;
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, rotavaso * toRadians, glm::vec3(0.0f, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1875,6 +1895,14 @@ int main()
 		model = glm::rotate(model, rotadado2 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		dados_cubo2.RenderModel();
+		//Brazo Phineas
+		model = modelaux2;
+		model = glm::translate(model, glm::vec3(5.3f, brazoPhineas + 0.0f, -3.1f));
+		model = glm::scale(model, glm::vec3(11.0f, 11.0f, 11.0f));
+		model = glm::rotate(model, rotavaso * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		phineas_brazoD.RenderModel();
 
 
 		//JUEGO HACHA
@@ -1885,7 +1913,7 @@ int main()
 		model = glm::scale(model, glm::vec3(2.0f, 1.7f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		CabinaHacha.RenderModel();
-
+		//Hacha Derecha
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-175.0f + axemovX, 14.0f, -77.5f + axemovZ));
 		modelaux = model;
@@ -1894,15 +1922,33 @@ int main()
 		model = glm::scale(model, glm::vec3(1.5f, 1.2f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Axe.RenderModel();
-
+		//Hacha izquierda
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-183.0f + axemovX, 14.0f, -61.0f + axemovZ));
-		modelaux = model;
+		modelaux2 = model;
 		model = glm::rotate(model, -115 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, axerotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.2f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Axe.RenderModel();
+		//Brazo Derecho 
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(4.0f - axemovX, brazoPhineas + -1.0f, 1.1f - axemovZ));
+		model = glm::scale(model, glm::vec3(11.0f, 11.0f, 11.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, -muevebrazo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		phineas_brazoD.RenderModel();
+		//Brazo Izquierdo 
+		model = modelaux2;
+		model = glm::translate(model, glm::vec3(4.0f - axemovX, brazoPhineas + -1.0f, 1.2f - axemovZ));
+		model = glm::scale(model, glm::vec3(11.0f, 11.0f, 11.0f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 1.0f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, muevebrazo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		phineas_brazoI.RenderModel();
+
 
 
 		//JUEGO GLOBOS
@@ -2003,6 +2049,7 @@ int main()
 		//JUEGO GLOBOS (PARTE DEL DARDO)
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-150.0f + dardomovX, 15.0f, 140.0f + dardomovZ));
+		modelaux2 = model;
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::rotate(model, -25 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, dardogiroY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -2011,12 +2058,33 @@ int main()
 		dardo.RenderModel();
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-156.0f + dardomovX, 15.0f, 130.0f + dardomovZ));
+		modelaux = model;
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::rotate(model, -25 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, dardogiroY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		dardo.RenderModel();
+		//Brazo Derecho 
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(11.5f - dardomovX, -2.0f, -5.0f - dardomovZ));
+		model = glm::scale(model, glm::vec3(11.0f, 11.0f, 11.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, 35 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, -muevebrazo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		phineas_brazoD.RenderModel();
+		//Brazo Izquierdo 
+		model = modelaux2;
+		model = glm::translate(model, glm::vec3(11.5f - dardomovX, -2.0f, -5.0f - dardomovZ));
+		model = glm::scale(model, glm::vec3(11.0f, 11.0f, 11.0f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 1.0f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 35 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, muevebrazo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		phineas_brazoI.RenderModel();
+
 		//TAQUILLA
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-155.0f, 3.0f, 215.0f));
@@ -2076,8 +2144,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		topito.RenderModel();
 
-		//SECCIÓN DE MAQUINAS PARA MONEDAS
-		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
+		//SECCIÃ“N DE MAQUINAS PARA MONEDAS
+		/*Todas se animan a la vez, ya que no se podrÃ¡ ver la ejecuciÃ³n de todas a la vez*/
 		//Maquina de monedas sobre juego TOPOS:
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(150.0f, 0.0f, -60.0f));
@@ -2087,7 +2155,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2134,8 +2202,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pokeball.RenderModel();
 
-		//SECCIÓN DE MAQUINAS PARA MONEDAS
-		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
+		//SECCIÃ“N DE MAQUINAS PARA MONEDAS
+		/*Todas se animan a la vez, ya que no se podrÃ¡ ver la ejecuciÃ³n de todas a la vez*/
 		//Maquina de monedas sobre juego JAULA DE BATEO:
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(70.0f, 0.0f, -215.0f));
@@ -2145,7 +2213,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2212,8 +2280,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pino.RenderModel();
 
-		//SECCIÓN DE MAQUINAS PARA MONEDAS
-		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
+		//SECCIÃ“N DE MAQUINAS PARA MONEDAS
+		/*Todas se animan a la vez, ya que no se podrÃ¡ ver la ejecuciÃ³n de todas a la vez*/
 		//Maquina de monedas sobre juego JAULA DE BATEO:
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(140.0f, 0.0f, 100.0f));
@@ -2223,7 +2291,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2263,9 +2331,9 @@ int main()
 		palomitas.RenderModel();
 
 
-		// ------------------------------------------------------------- NPC´S --------------------------------------------------------
+		// ------------------------------------------------------------- NPCÂ´S --------------------------------------------------------
 		//Pikachu
-		float rotacola = sin(now * 4.0f) * glm::radians(-15.0f); // rotación senoidal entre -45° y 45° 
+		float rotacola = sin(now * 4.0f) * glm::radians(-15.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â° 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(37.0f, 8.3f, 56.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -2289,7 +2357,7 @@ int main()
 
 
 		//Charizard
-		float rotachar = sin(now * 2.0f) * glm::radians(-40.0f); // rotación senoidal entre -45° y 45° 
+		float rotachar = sin(now * 2.0f) * glm::radians(-40.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â° 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(90.0f, 30.0f + 3.0 * rotachar, 190.0f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
@@ -2324,11 +2392,11 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Perry_BrazoD.RenderModel();
 
-		float rotationAngle = sin(now * 1.5f) * glm::radians(-10.0f); // rotación senoidal entre -45° y 45°
+		float rotationAngle = sin(now * 1.5f) * glm::radians(-10.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â°
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.65f, 2.06f, 0.0f));
 		model = glm::rotate(model, -180 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, rotationAngle, glm::vec3(0.0f, 0.0f, 1.0f));     // rotación senoidal en Y
+		model = glm::rotate(model, rotationAngle, glm::vec3(0.0f, 0.0f, 1.0f));     // rotaciÃ³n senoidal en Y
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Perry_BrazoI.RenderModel();
 
@@ -2342,11 +2410,11 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Perry_PiernaI.RenderModel();
 
-		float rotationAngleS = sin(now * 1.5f) * glm::radians(20.0f); // rotación senoidal entre -45° y 45°
+		float rotationAngleS = sin(now * 1.5f) * glm::radians(20.0f); // rotaciÃ³n senoidal entre -45Â° y 45Â°
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(1.2f, 3.7f, 0.0f));
 		model = glm::rotate(model, -20 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, rotationAngleS, glm::vec3(0.0f, 0.0f, 1.0f));     // rotación senoidal en Y
+		model = glm::rotate(model, rotationAngleS, glm::vec3(0.0f, 0.0f, 1.0f));     // rotaciÃ³n senoidal en Y
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Perry_Sombrero.RenderModel();
 
@@ -2417,8 +2485,8 @@ int main()
 		rotulo_hollow.RenderModel();
 
 
-		//---------------------------------------------------------------SECCIÓN DE MAQUINAS PARA MONEDAS----------------------------------------------
-		/*Todas se animan a la vez, ya que no se podrá ver la ejecución de todas a la vez*/
+		//---------------------------------------------------------------SECCIÃ“N DE MAQUINAS PARA MONEDAS----------------------------------------------
+		/*Todas se animan a la vez, ya que no se podrÃ¡ ver la ejecuciÃ³n de todas a la vez*/
 
 		//Maquina de monedas sobre juego DADOS:
 		model = glm::mat4(1.0);
@@ -2429,7 +2497,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2447,7 +2515,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2465,7 +2533,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2483,7 +2551,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2501,7 +2569,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
@@ -2519,7 +2587,7 @@ int main()
 		Material_metalico.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tragamoneda.RenderModel();
 		//MONEDA RELATIVA AL TRAGAMONEDAS
-		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estás en un juego.
+		if (mainWindow.getdentrojuego() == 1.0f) { //moneda solo se dibuja y anima si estÃ¡s en un juego.
 			model = glm::translate(model, glm::vec3(0.1f, 20.0f + monedamovy, -20.0f + monedamovx));
 			model = glm::rotate(model, -85 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
